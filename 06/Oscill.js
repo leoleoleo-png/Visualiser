@@ -7,7 +7,7 @@ let img3;
 let img4;
 
 let mic;
-var shapes = 3;
+var shapes = 1;
 let button;
 function preload() {
   img2 = loadImage("clown4.png");
@@ -93,8 +93,8 @@ function draw() {
 
     } else if (shapes == 3) {
 
-      strokeWeight(1 / 4);
-      image(img2, x, y, 15, 15);
+      strokeWeight(1);
+      
 
       image(img4, x * 2, y - 50, 10, 10);
 

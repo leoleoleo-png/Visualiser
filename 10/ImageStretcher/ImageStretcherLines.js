@@ -51,8 +51,8 @@ function setup() {
   userStartAudio();
 
 
-  input = createFileInput(handleFile);
-  input.position(0, 0);
+  /* input = createFileInput(handleFile);
+  input.position(0, 0); */
 }
 
 function draw() {
@@ -93,7 +93,7 @@ function draw() {
 
     noStroke();
 
-    copy(shaderTexture, 0, 0, 1 * micSlider * 10, 1 * micSlider * 10, 0, 0, windowWidth, windowHeight);
+    copy(shaderTexture, 0, 0, micSlider * 10, 1 * micSlider * 10, 0, 0, windowWidth, windowHeight);
 
     let pixelMove = map(micSlider, 0, 10, 0, windowWidth)
 

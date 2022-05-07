@@ -43,11 +43,11 @@ function preload() {
   myFont = loadFont(fontName);
 
   img = loadImage("imagecool.jpg");
-
   img2 = loadImage(imageChoice);
 }
 
 function setup() {
+
   mic = new p5.AudioIn();
   mic.start();
 
