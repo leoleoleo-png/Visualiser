@@ -4,15 +4,15 @@ let camShader;
 let cam;
 
 let input;
-let userImg;
 
-var pupImg;
+
+let img;
 
 
 let mic;
 let slider;
 
-
+var imgChoice;
 
 
 
@@ -20,7 +20,9 @@ function preload() {
 
   camShader = loadShader('ImageStretcher/ImageStretcherLines.vert', 'ImageStretcher/ImageStretcherLines.frag');
   cam = loadImage('IMAGES/displace3.jpeg');
-  pupImg = loadImage('IMAGES/flowers.jpg');
+
+  imgChoice = 'IMAGES/flowers.jpg'
+  img = loadImage(imgChoice);
 
 
 
@@ -51,151 +53,79 @@ function setup() {
   userStartAudio();
 
 
-  /* input = createFileInput(handleFile);
-  input.position(0, 0); */
+  input = createFileInput(handleFile);
+  input.position(0, 0);
+  
+  input.parent(controller);
 }
 
 function draw() {
 
-  if (userImg) {
+  let val = slider.value();
 
-    var imageValue = userImg;
+  getMicVolume();
 
-    let val = slider.value();
+  let micSlider = val * micVolume * 10;
 
-    getMicVolume();
+  shaderTexture.shader(camShader);
 
-    let micSlider = val * micVolume * 10;
+  // shader() sets the active shader with our shader
+  shader(camShader);
 
-    shaderTexture.shader(camShader);
+  camShader.setUniform('u_resolution', [width / 10, height / 10]);
 
-    // shader() sets the active shader with our shader
-    shader(camShader);
+  // lets just send the cam to our shader as a uniform
+  camShader.setUniform('tex0', cam);
 
-    camShader.setUniform('u_resolution', [width / 10, height / 10]);
+  camShader.setUniform('tex1', img);
 
-    // lets just send the cam to our shader as a uniform
-    camShader.setUniform('tex0', cam);
+  camShader.setUniform('amt', map(micVolume, 0.0, 1, 0, 40));
 
-    camShader.setUniform('tex1', imageValue);
+  camShader.setUniform("resolution", [width, height]);
 
-    camShader.setUniform('amt', map(micVolume, 0.0, 1, 0, 40));
+  shaderTexture.rect(0, 0, width, height);
 
-    camShader.setUniform("resolution", [width, height]);
+  background(255);
 
-    shaderTexture.rect(0, 0, width, height);
+  texture(shaderTexture);
 
-    background(255);
+  translate(-width / 2, -height / 2, 0);
 
-    texture(shaderTexture);
+  noStroke();
 
-    translate(-width / 2, -height / 2, 0);
+  copy(shaderTexture, 0, 0, micSlider * 10,micSlider * 10, 0, 0, windowWidth, windowHeight);
 
-    noStroke();
-
-    copy(shaderTexture, 0, 0, micSlider * 10, 1 * micSlider * 10, 0, 0, windowWidth, windowHeight);
-
-    let pixelMove = map(micSlider, 0, 10, 0, windowWidth)
+  let pixelMove = map(micSlider, 0, 10, 0, img.width)
 
 
-    beginShape();
-    noFill();
+  beginShape();
+  noFill();
 
-    let waveform = fft.waveform();
-    for (let i = 0; i < waveform.length; i++) {
-      let x = map(i, 0, waveform.length, 0, width);
-      let y = map(waveform[i], -1, 1 * micVolume * 10, 0, height);
+  let waveform = fft.waveform();
+  for (let i = 0; i < waveform.length; i++) {
+    let x = map(i, 0, waveform.length, 0, width);
+    let y = map(waveform[i], -1, 1 * micVolume * 10, 0, height);
 
-      let e = (imageValue.get(pixelMove, height / 2));
+    let e = (img.get(pixelMove, height / 2));
 
-      stroke(e);
-      strokeWeight(20);
-
-
-      ellipse(x * 3, y, 3, 20 * micSlider);
-      ellipse(x * 2, y, 1, 20 * micSlider);
-
-      strokeWeight(1);
-
-      let r = random(windowWidth);
-
-      rotating();
-      fill(255);
-      ellipse(r, r / 2, 10, 10);
-      translate(0.8 * width, height / 2);
-    }
-    endShape();
-  } else {
-
-    var imageValue = pupImg;
+    stroke(e);
+    strokeWeight(20);
 
 
+    ellipse(x * 3, y, 3, 20 * micSlider);
+    ellipse(x * 2, y, 1, 20 * micSlider);
 
-    let val = slider.value();
+    strokeWeight(1);
 
-    getMicVolume();
+    let r = random(windowWidth);
 
-    let micSlider = val * micVolume * 10;
-
-    shaderTexture.shader(camShader);
-
-    // shader() sets the active shader with our shader
-    shader(camShader);
-
-    camShader.setUniform('u_resolution', [width / 10, height / 10]);
-
-    // lets just send the cam to our shader as a uniform
-    camShader.setUniform('tex0', cam);
-
-    camShader.setUniform('tex1', imageValue);
-
-    camShader.setUniform('amt', map(micVolume, 0.0, 1, 0, 40));
-
-    camShader.setUniform("resolution", [width, height]);
-
-    shaderTexture.rect(0, 0, width, height);
-
-    background(255);
-
-    texture(shaderTexture);
-
-    translate(-width / 2, -height / 2, 0);
-
-    noStroke();
-
-    copy(shaderTexture, 0, 0, 1 * micSlider * 10, 1 * micSlider * 10, 0, 0, windowWidth, windowHeight);
-
-    let pixelMove = map(micSlider, 0, 10, 0, windowWidth)
-
-
-    beginShape();
-    noFill();
-
-    let waveform = fft.waveform();
-    for (let i = 0; i < waveform.length; i++) {
-      let x = map(i, 0, waveform.length, 0, width);
-      let y = map(waveform[i], -1, 1 * micVolume * 10, 0, height);
-
-      let e = (imageValue.get(pixelMove, height / 2));
-
-      stroke(e);
-      strokeWeight(20);
-
-
-      ellipse(x * 3, y, 3, 20 * micSlider);
-      ellipse(x * 2, y, 1, 20 * micSlider);
-
-      strokeWeight(1);
-
-      let r = random(windowWidth);
-
-      rotating();
-      fill(255);
-      ellipse(r, r / 2, 10, 10);
-      translate(0.8 * width, height / 2);
-    }
-    endShape();
+    rotating();
+    fill(255);
+    ellipse(r, r / 2, 10, 10);
+    translate(0.8 * width, height / 2);
   }
+  endShape();
+
 }
 
 
@@ -231,9 +161,9 @@ function rotating() {
 function handleFile(file) {
 
   if (file.type === 'image') {
-    userImg = createImg(file.data, '');
-    userImg.hide();
+
+    img = loadImage(file.data, '');
   } else {
-    userImg = null;
+
   }
 }

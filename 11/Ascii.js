@@ -8,8 +8,8 @@ let micVolume;
 let micVolumeHistory = new Array(30);
 
 var framed = 1;
-var colorState = 1;
-var bgState = 1;
+
+
 var shapes = 1;
 let img;
 let img2;
@@ -33,7 +33,7 @@ var myCapture;
 var gfx;
 
 var ascii_arr;
-
+var imgChoice;
 //FONT OPTIONS
 var fontName;
 var fontName2;
@@ -51,7 +51,9 @@ function preload() {
   fontName2 = "Crosses";
 
   myFont = loadFont(fontName);
-  img = loadImage("band5.jpg");
+
+  imgChoice = "band.jpg"
+  img = loadImage(imgChoice);
 
 
 }
@@ -62,27 +64,27 @@ function setup() {
   mic.start();
 
 
-  slider = createSlider(0, 200, 100);
-  
+  slider = createSlider(100, 500, 300);
 
-  button = createButton('Text color');
-  button.mousePressed(changeColorState);
 
-  button2 = createButton('Background switch');
-  button2.mousePressed(changeBackground);
 
-  button3 = createButton('Shapes');
+  button3 = createButton('Change shapes');
   button3.mousePressed(changeShapes);
-  
-  button.size(170, 30);
-  button2.size(170, 30);
   button3.size(170, 30);
 
-  slider.parent(controller);
-  button.parent(controller);
-  button2.parent(controller);
-  button3.parent(controller);
+  button2 = createButton('Change font');
+  button2.mousePressed(changeFont);
+  button2.size(170, 30);
 
+  button = createButton('Change colors');
+  button.mousePressed(changeImg);
+  button.size(170, 30);
+
+  slider.parent(controller);
+
+  button3.parent(controller);
+  button2.parent(controller);
+  button.parent(controller);
 
 
 
@@ -111,6 +113,7 @@ function setup() {
   createAmplitude();
 
   frameRate(30);
+  background(0);
 
 }
 
@@ -140,16 +143,17 @@ function draw() {
 
   micSlider = micVolume * val;
 
+
   fillThreshold = map(micSlider, 0, 10, 1, 100);
 
-  pixelMove = map(micVolume, 0, 0.5, 0, img.width);
+  pixelMove = map(micSlider, 1, 80, 2, img.width);
 
-  fontSize = map(micSlider, 0, 10, 0, 150);
+  fontSize = map(micSlider, 0, 50, 0, 100);
 
   let fontLimit = constrain(fontSize, 10, 100);
 
   textAlign(CENTER, CENTER);
-  
+
   textFont(fontName2, fontLimit);
 
 
@@ -157,49 +161,31 @@ function draw() {
 
 
 
-  if (bgState == 1) {
-    let e = img.get(pixelMove, 2);
-    fill(e);
-
-
-
-
-
-    background(e);
-
-
-
-
-
-
-
-  } else if (bgState == 2) {
-    background(0);
-
-  }
-  else if (bgState == 3) {
-
-
-
-  }
 
 
 
 
   noStroke();
 
-  let c = img.get(pixelMove/2, 5);
+  let c = img.get(pixelMove / 2, 5);
+
+  for (let i = 0; i < windowWidth; i += windowWidth) {
 
 
-  if (colorState == 1) {
+
     fill(c);
 
-  } else if (colorState == 2) {
+    for (let y = 0; y < windowHeight; y += windowHeight / 100) {
+      let wow = map(micSlider, 0, 4, 1, 200);
+      rect(i * micSlider, y, wow, micSlider / 5);
 
-    fill(0);
-  } else if (colorState == 3) {
-    fill(255);
+
+      rect(windowWidth / 2 + i * micSlider, y, wow, micSlider / 10);
+    }
   }
+
+
+  fill(0);
 
 
 
@@ -312,27 +298,7 @@ function getMicVolume() {
 }
 
 
-function changeColorState() {
-  if (colorState == 1) {
-    colorState = 2;
-  } else if (colorState == 2) {
-    colorState = 3;
-  } else if (colorState == 3) {
-    colorState = 1;
-  }
 
-}
-
-function changeBackground() {
-  if (bgState == 1) {
-    bgState = 2;
-  } else if (bgState == 2) {
-    bgState = 3;
-  } else if (bgState == 3) {
-    bgState = 1;
-  }
-
-}
 
 function changeShapes() {
   if (shapes == 1) {
@@ -343,4 +309,30 @@ function changeShapes() {
     shapes = 1;
   }
 
+}
+
+function changeFont() {
+  if (fontName == "Crosses.otf") {
+    fontName = "Hertz-Regular.otf";
+    fontName2 = "Hertz-Regular";
+    myFont = loadFont(fontName);
+  } else if (fontName == "Hertz-Regular.otf") {
+
+    fontName = "Crosses.otf";
+    fontName2 = "Crosses";
+
+  }
+
+}
+
+function changeImg() {
+  if (imgChoice == "band.jpg") {
+    imgChoice = "band2.jpg";
+    img = loadImage(imgChoice);
+  } else if (imgChoice == "band2.jpg") {
+    imgChoice = "band6.jpg";
+    img = loadImage(imgChoice);
+  }else if (imgChoice == "band6.jpg") {
+    imgChoice = "band.jpg";
+    img = loadImage(imgChoice);}
 }
