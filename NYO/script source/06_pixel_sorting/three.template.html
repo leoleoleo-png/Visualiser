@@ -1,0 +1,103 @@
+<head>
+    <style>
+        /*
+        *  html5resetcss
+        */
+        html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}
+        body{line-height:1}
+        article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+        nav ul{list-style:none}
+        blockquote,q{quotes:none}
+        blockquote:before,blockquote:after,q:before,q:after{content:none}
+        a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent}
+        ins{background-color:#ff9;color:#000;text-decoration:none}
+        mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold}
+        del{text-decoration:line-through}
+        abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}
+        table{border-collapse:collapse;border-spacing:0}
+        hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}
+        input,select{vertical-align:middle}
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" referrerpolicy="no-referrer"></script>
+    <script id="vertexShader" type="x-shader/x-vertex">
+        void main() {
+            gl_Position = vec4( position, 1.0 );
+        }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        uniform vec2 u_resolution;
+        uniform float u_time;
+
+        void main() {
+            vec2 st = gl_FragCoord.xy/u_resolution.xy;
+            gl_FragColor=vec4(st.x,st.y,0.0,1.0);
+        }
+    </script>
+    <script>
+        var container;
+        var camera, scene, renderer, clock;
+        var uniforms;
+
+        init();
+        animate();
+
+        function init() {
+            container = document.getElementById( 'container' );
+
+            camera = new THREE.Camera();
+            camera.position.z = 1;
+
+            scene = new THREE.Scene();
+            clock = new THREE.Clock();
+
+            var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
+
+            uniforms = {
+                u_time: { type: "f", value: 1.0 },
+                u_resolution: { type: "v2", value: new THREE.Vector2() },
+                u_mouse: { type: "v2", value: new THREE.Vector2() }
+            };
+
+            var material = new THREE.ShaderMaterial( {
+                uniforms: uniforms,
+                vertexShader: document.getElementById( 'vertexShader' ).textContent,
+                fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+            } );
+
+            var mesh = new THREE.Mesh( geometry, material );
+            scene.add( mesh );
+
+            renderer = new THREE.WebGLRenderer();
+            renderer.setPixelRatio( window.devicePixelRatio );
+
+            container.appendChild( renderer.domElement );
+
+            onWindowResize();
+            window.addEventListener( 'resize', onWindowResize, false );
+
+            document.onmousemove = function(e){
+              uniforms.u_mouse.value.x = e.pageX
+              uniforms.u_mouse.value.y = e.pageY
+            }
+        }
+
+        function onWindowResize( event ) {
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            uniforms.u_resolution.value.x = renderer.domElement.width;
+            uniforms.u_resolution.value.y = renderer.domElement.height;
+        }
+
+        function animate() {
+            requestAnimationFrame( animate );
+            render();
+        }
+
+        function render() {
+            uniforms.u_time.value += clock.getDelta();
+            renderer.render( scene, camera );
+        }
+    </script>
+</body>

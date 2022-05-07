@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>NYO Visualiser</title>
+
+        <link rel="stylesheet" type="text/css" href="../frame.css" />
+
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.sound.min.js"></script> -->
+
+        <script src="../libraries/p5.min.js"></script>
+        <script src="../libraries/p5.sound.min.js"></script>
+        <script src="../libraries/helpers.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"
+            integrity="sha512-UFPpekaMf0TrCIkPv9mRT3reo/HzSjkOLq57Rtzb+E1ej1TRUOes6J/Ge4uZXyxWA9b4i5DqSZns79YaUoJ2kA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script src="../libraries/p5.pixelator.custom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    </head>
+
+    <body>
+        <script src="../anim.js"></script>
+        <div id="controller">
+            <button id="toggleButton" onclick="toggleController()">CLOSE</button>
+        </div>
+        <div id="sketch"></div>
+
+        <div id="vizHolder">
+            <script src="shader.js"></script>
+        </div>
+        
+        <script id="p5script" src="../audioInput.js"></script>
+    </body>
+</html>

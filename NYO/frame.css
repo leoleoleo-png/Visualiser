@@ -1,0 +1,122 @@
+:root {
+    --main-white: rgb(224, 224, 224);
+    --main-black: rgb(20, 20, 30);
+    --main-transparent: rgba(224, 224, 224, 0);
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--main-transparent);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+canvas {
+    height: 100vh !important;
+    width: 100vw !important;
+    z-index: -1;
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@font-face {
+    font-family: "digit";
+    src: url("digit.ttf");
+}
+
+#canvas {
+    height: 50vw;
+    width: 50vw;
+}
+
+#controller {
+    z-index: 9;
+    width: 180px;
+    padding: 7px;
+    padding-left:5px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--main-white);
+    color: var(--main-black);
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--main-black);
+    border-radius: 4px;
+    box-shadow: 0px 2px 0px #000000;
+    margin: 10px;
+}
+
+#toggleButton{
+    align-self: flex-end;
+    margin-right:20px;
+}
+
+p {
+    font-size: 0.7rem;
+    margin: 10px;
+}
+
+button {
+    width: 60px;
+    font-size: .7rem;
+    display: block;
+    padding: 7px;
+    background-color: var(--main-white);
+    color: var(--main-black);
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--main-black);
+    border-radius: 4px;
+    box-shadow: 0px 2px 0px #000000;
+    margin: 6px;
+    
+}
+
+button:active {
+    box-shadow: 0px 0px 0px #000000;
+}
+
+input {
+    margin: 10px;
+    width: 170px;
+    margin-left:5px;
+    display: block;
+    -webkit-appearance: none;
+    height: 5px;
+    background: var(--main-black);
+    outline: none;
+    opacity: 1;
+    /* -webkit-transition: 0.2s;
+    transition: opacity 0.2s; */
+}
+/* 
+input:hover {
+    opacity: 1;
+} */
+
+input::-webkit-slider-thumb {
+    -webkit-appearance:none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0px 1px 0px #000000;
+    background: #000000;
+    cursor: pointer;
+}
+
+
+
+
+input::-moz-range-thumb {
+    width: 20px;
+    height: 10px;
+    background: white;
+    cursor: pointer;
+}

@@ -1,0 +1,383 @@
+<head>
+    <style>
+        /*
+        *  html5resetcss
+        */
+        html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}
+        body{line-height:1}
+        article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+        nav ul{list-style:none}
+        blockquote,q{quotes:none}
+        blockquote:before,blockquote:after,q:before,q:after{content:none}
+        a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent}
+        ins{background-color:#ff9;color:#000;text-decoration:none}
+        mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold}
+        del{text-decoration:line-through}
+        abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}
+        table{border-collapse:collapse;border-spacing:0}
+        hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}
+        input,select{vertical-align:middle}
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r101/three.min.js" referrerpolicy="no-referrer"></script>
+    <script id="vertexShader" type="x-shader/x-vertex">
+        #define GLSLIFY 1
+// Texture varyings
+varying vec2 v_uv;
+
+/*
+ * The main program
+ */
+void main() {
+    // Calculate the varyings
+    v_uv = uv;
+
+    // Vertex shader output
+    gl_Position = vec4(position, 1.0);
+}
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        #define GLSLIFY 1
+// Common uniforms
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+uniform float u_frame;
+
+// Texture uniforms
+uniform sampler2D u_texture;
+
+// Texture varyings
+varying vec2 v_uv;
+
+/*
+ * Calculates the pixel resistance based on the pixel color
+ */
+float calculage_pixel_resistance(vec3 pixel_color) {
+    return min(min(pixel_color.r, pixel_color.g), pixel_color.b);
+}
+
+/*
+ * Calculates the pixel weight based on the pixel color
+ */
+float calculage_pixel_weight(vec3 pixel_color) {
+    return dot(pixel_color, vec3(1.0, -1.0, -1.0));
+}
+
+/*
+ * Swaps the current pixel color with the color bellow if the pixel bellow is
+ * lighter
+ */
+vec3 swap_color_bellow(vec2 uv, float uv_min, float uv_max, float stop_value) {
+    // Get the texture uv coordinates of the pixel bellow
+    vec2 uv_bellow = uv + vec2(0.0, 2.0 / u_resolution.y);
+
+    // Make sure we stay inside the texture block limits
+    if (uv_bellow.y < uv_min || uv.y >= uv_max) {
+        uv_bellow = uv;
+    }
+
+    // Get the pixel colors
+    vec3 color = texture2D(u_texture, uv).rgb;
+    vec3 color_bellow = texture2D(u_texture, uv_bellow).rgb;
+
+    // Get the pixel resistances
+    float resistance = calculage_pixel_resistance(color);
+    float resistance_bellow = calculage_pixel_resistance(color_bellow);
+
+    // Swap the colors only if the resistances are lower than the stop value
+    if (resistance < stop_value && resistance_bellow < stop_value) {
+        // Get the pixel weights
+        float weight = calculage_pixel_weight(color);
+        float weight_bellow = calculage_pixel_weight(color_bellow);
+
+        // Swap the color if the pixel bellow is lighter
+        if (weight > weight_bellow) {
+            color = color_bellow;
+        }
+    }
+
+    return color;
+}
+
+/*
+ * Swaps the current pixel color with the color above if the pixel above is
+ * heavier
+ */
+vec3 swap_color_above(vec2 uv, float uv_min, float uv_max, float stop_value) {
+    // Get the texture uv coordinates of the pixel above
+    vec2 uv_above = uv + vec2(0.0, 0.0 / u_resolution.y);
+
+    // Make sure we stay inside the texture block limits
+    if (uv.y < uv_min || uv_above.y >= uv_max) {
+        uv_above = uv;
+    }
+
+    // Get the pixel colors
+    vec3 color = texture2D(u_texture, uv).rgb;
+    vec3 color_above = texture2D(u_texture, uv_above).rgb;
+
+    // Get the pixel resistances
+    float resistance = calculage_pixel_resistance(color);
+    float resistance_above = calculage_pixel_resistance(color_above);
+
+    // Swap the colors only if the resistances are lower than the stop value
+    if (resistance < stop_value && resistance_above < stop_value) {
+        // Get the pixel weights
+        float weight = calculage_pixel_weight(color);
+        float weight_above = calculage_pixel_weight(color_above);
+
+        // Swap the color if the pixel above is heavier
+        if (weight < weight_above) {
+            color = color_above;
+        }
+    }
+
+    return color;
+}
+
+/*
+ * The main program
+ */
+void main() {
+    // Set the sorting parameters using the mouse relative position
+    //float n_steps = floor(10.0 * u_mouse.y / u_resolution.y);
+    float n_steps = 0.5;
+    float uv_min = floor(n_steps * v_uv.y) / n_steps;
+    float uv_max = min(uv_min + 1.0 / n_steps, 1.0);
+    //float stop_value = u_mouse.x / u_resolution.x;
+    float stop_value =  0.7;
+
+    // Check if we are in an even pixel row
+    bool even_row = mod(floor(gl_FragCoord.y), 2.0) == 0.0;
+
+    // Calculate the new pixel color
+    vec3 pixel_color;
+
+    if (mod(u_frame, 2.0) == 0.0) {
+        if (even_row) {
+            pixel_color = swap_color_bellow(v_uv, uv_min, uv_max, stop_value);
+        } else {
+            pixel_color = swap_color_above(v_uv, uv_min, uv_max, stop_value);
+        }
+    } else {
+        if (even_row) {
+            pixel_color = swap_color_above(v_uv, uv_min, uv_max, stop_value);
+        } else {
+            pixel_color = swap_color_bellow(v_uv, uv_min, uv_max, stop_value);
+        }
+    }
+
+    // Fragment shader output
+    gl_FragColor = vec4(pixel_color, 1.0);
+}
+    </script>
+    <script>
+        window.onload = function() {
+	runSketch();
+};
+
+function runSketch() {
+	var renderer, renderTarget1, renderTarget2, sceneShader, sceneScreen, camera, clock, stats, uniforms, materialScreen, imgTexture;
+
+	init();
+	animate();
+
+	/*
+	 * Initializes the sketch
+	 */
+	function init() {
+		// Initialize the WebGL renderer
+		renderer = new THREE.WebGLRenderer();
+		renderer.setPixelRatio(window.devicePixelRatio);
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.setClearColor(new THREE.Color(0, 0, 0));
+
+		// Add the renderer to the sketch container
+		var container = document.getElementById("container");
+		container.appendChild(renderer.domElement);
+
+		// Initialize the render targets
+		var size = renderer.getDrawingBufferSize();
+		var options = {
+			minFilter : THREE.NearestFilter,
+			magFilter : THREE.NearestFilter,
+			format : THREE.RGBAFormat,
+			type : /(iPad|iPhone|iPod)/g.test(navigator.userAgent) ? THREE.HalfFloatType : THREE.FloatType
+		};
+		renderTarget1 = new THREE.WebGLRenderTarget(size.width, size.height, options);
+		renderTarget2 = new THREE.WebGLRenderTarget(size.width, size.height, options);
+
+		// Initialize the scenes
+		sceneShader = new THREE.Scene();
+		sceneScreen = new THREE.Scene();
+
+		// Initialize the camera
+		camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+		// Initialize the clock
+		clock = new THREE.Clock(true);
+
+		// Initialize the statistics monitor and add it to the sketch container
+		
+
+		// Create the plane geometry
+		var geometry = new THREE.PlaneBufferGeometry(2, 2);
+
+		// Define the shader uniforms
+		uniforms = {
+			u_time : {
+				type : "f",
+				value : 0.0
+			},
+			u_frame : {
+				type : "f",
+				value : 0.0
+			},
+			u_resolution : {
+				type : "v2",
+				value : new THREE.Vector2(window.innerWidth, window.innerHeight)
+						.multiplyScalar(window.devicePixelRatio)
+			},
+			u_mouse : {
+				type : "v2",
+				value : new THREE.Vector2(0.7 * window.innerWidth, window.innerHeight)
+						.multiplyScalar(window.devicePixelRatio)
+			},
+			u_texture : {
+				type : "t",
+				value : null
+			}
+		};
+
+		// Create the shader material
+		var materialShader = new THREE.ShaderMaterial({
+			uniforms : uniforms,
+			vertexShader : document.getElementById("vertexShader").textContent,
+			fragmentShader : document.getElementById("fragmentShader").textContent
+		});
+
+		// Create the screen material
+		materialScreen = new THREE.MeshBasicMaterial();
+
+		// Create the meshes and add them to the scenes
+		var meshShader = new THREE.Mesh(geometry, materialShader);
+		var meshScreen = new THREE.Mesh(geometry, materialScreen);
+		sceneShader.add(meshShader);
+		sceneScreen.add(meshScreen);
+
+		// Load the image texture
+		loadTextrure("../flowers.jpg");
+
+		// Add the event listeners
+		window.addEventListener("resize", onWindowResize, false);
+        renderer.domElement.addEventListener("mousepressed", onMousePressed, false);
+		renderer.domElement.addEventListener("mousemove", onMouseMove, false);
+		renderer.domElement.addEventListener("touchstart", onTouchMove, false);
+		renderer.domElement.addEventListener("touchmove", onTouchMove, false);
+	}
+
+	/*
+	 * Loads a texture and updates the screen material texture uniform
+	 */
+	function loadTextrure(imageFileName) {
+		var loader = new THREE.TextureLoader();
+
+		loader.load(imageFileName, function(texture) {
+			texture.minFilter = THREE.LinearFilter;
+			texture.magFilter = THREE.LinearFilter;
+			imgTexture = texture;
+			materialScreen.map = imgTexture;
+			materialScreen.needsUpdate = true;
+		});
+	}
+
+	/*
+	 * Animates the sketch
+	 */
+	function animate() {
+		requestAnimationFrame(animate);
+		render();
+	}
+
+	/*
+	 * Renders the sketch
+	 */
+	function render() {
+		// Wait until the image texture is loaded
+		if (materialScreen.map) {
+			// Start rendering the screen scene on the first render target
+			if (!uniforms.u_texture.value) {
+				renderer.render(sceneScreen, camera, renderTarget1);
+			}
+
+			// Update the uniforms
+			uniforms.u_time.value = clock.getElapsedTime();
+			uniforms.u_frame.value += 1.0;
+			uniforms.u_texture.value = renderTarget1.texture;
+
+			// Render the shader scene
+			renderer.render(sceneShader, camera, renderTarget2);
+
+			// Update the screen material texture
+			materialScreen.map = renderTarget2.texture;
+			materialScreen.needsUpdate = true;
+
+			// Render the screen scene
+			renderer.render(sceneScreen, camera);
+
+			// Swap the render targets
+			var tmp = renderTarget1;
+			renderTarget1 = renderTarget2;
+			renderTarget2 = tmp;
+		}
+	}
+
+	/*
+	 * Updates the renderer size and the uniforms when the window is resized
+	 */
+	function onWindowResize(event) {
+		// Update the renderer
+		renderer.setSize(window.innerWidth, window.innerHeight);
+
+		// Update the render targets
+		var size = renderer.getDrawingBufferSize();
+		renderTarget1.setSize(size.width, size.height);
+		renderTarget2.setSize(size.width, size.height);
+
+		// Update the uniforms
+		uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight).multiplyScalar(window.devicePixelRatio);
+		uniforms.u_texture.value = null;
+
+		// Start again from the original image texture
+		materialScreen.map = imgTexture;
+	}
+
+	/*
+	 * Updates the uniforms when the mouse moves
+	 */
+	function onMouseMove(event) {
+		// Update the mouse uniform
+		uniforms.u_mouse.value.set(event.pageX, window.innerHeight - event.pageY).multiplyScalar(
+				window.devicePixelRatio);
+	}
+
+    function onMousePressed(){
+        console.log('hi')
+    }
+
+	/*
+	 * Updates the uniforms when the touch moves
+	 */
+	function onTouchMove(event) {
+		event.preventDefault();
+
+		// Update the mouse uniform
+		uniforms.u_mouse.value.set(event.touches[0].pageX, window.innerHeight - event.touches[0].pageY).multiplyScalar(
+				window.devicePixelRatio);
+	}
+}
+    </script>
+</body>
