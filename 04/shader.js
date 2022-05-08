@@ -3,16 +3,20 @@
 /* =========== */
 
 
-let detailX;
 
-
+let micSens;
+var sliderVol;
 function detectBeat(level) {
     //level should be from 0 to 1 (realistically 0 to 0.6~)
     //detect if level exceeds beatThreshold and beatCutoff
     //if not advance the frames
-    if (level > beatCutoff && level > beatThreshold) {
+    sliderVol = micSens.value();
+
+
+
+    if (level > beatCutoff > beatThreshold) {
         onBeat();
-        beatCutoff = level * 1.1;
+        beatCutoff = micVolume * 1.1;
         framesSinceLastBeat = 0;
     } else {
         if (framesSinceLastBeat <= beatHoldFrames) {
@@ -26,7 +30,10 @@ function detectBeat(level) {
 
 function onBeat() {
     //define what should happen onBeat here
-    manualFrameCount += random(250);
+
+    if (frameCount % 25 == 0) {
+        manualFrameCount += random(250);
+    }
 }
 
 //this variable will hold our shader object
@@ -54,15 +61,21 @@ function setup() {
     audioSetup();
     fft.setInput(mic);
 
-    detailX = createSlider(1, 21, 10);
-    detailX.parent(controller);
-
+    micSens = createSlider(1 / 10, 3.1, 1.6, 0.2);
+    micSens.parent(controller);
+    background(0);
 }
 
 function draw() {
+
     audioDraw();
-    detectBeat(micVolume);
-    background(0);
+
+    sliderVol = micSens.value();
+    let mix = sliderVol * micVolume;
+    detectBeat(mix);
+
+
+
 
     // shader() sets the active shader with our shader
     shader(myShader);
@@ -76,13 +89,13 @@ function draw() {
 
     // Draw some geometry to the screen
     // We're going to tessellate the sphere a bit so we have some more geometry to work with
-
-
     sphere(width / 5, 200, 200);
+    sphere(50, 10, 200);
+
 
 
     //sphere(40, detailX.value()*micVolume, 16);
-    sphere(50, detailX.value(), 200);
+
     //sphere(width / 5, 200, 3);
 
 

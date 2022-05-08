@@ -65,7 +65,7 @@ function draw() {
 
   getMicVolume();
 
-  let micSlider = val * micVolume * 10;
+  let micSlider = val * micVolume ;
 
   shaderTexture.shader(camShader);
 
@@ -93,7 +93,7 @@ function draw() {
 
   noStroke();
 
-  copy(shaderTexture, 0, 0, micSlider * 10,micSlider * 10, 0, 0, windowWidth, windowHeight);
+  copy(shaderTexture, 0, 0, micSlider ,micSlider , 0, 0, windowWidth, windowHeight);
 
   let pixelMove = map(micSlider, 0, 10, 0, img.width)
 
@@ -116,12 +116,30 @@ function draw() {
     ellipse(x * 2, y, 1, 20 * micSlider);
 
     strokeWeight(1);
-
+    
     let r = random(windowWidth);
 
-    rotating();
+   
+    
+      rotating();
+    
     fill(255);
-    ellipse(r, r / 2, 10, 10);
+    strokeWeight(1/3);
+    stroke(255,255,255,3);
+    
+  
+    if (frameCount % 5 == 0) {
+      ellipse(micSlider, r / 2, 10, 10);
+    }
+    if (frameCount % 3 == 0) {
+      ellipse(r*1.5, r / 2, 5, 5);
+    }
+  
+    if (frameCount % 15 == 0) {
+      ellipse(r*2*micSlider, r / 2, 15, 15);
+    }
+  
+    
     translate(0.8 * width, height / 2);
   }
   endShape();
