@@ -1,64 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>NYO Visualiser</title>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>NYO Visualiser</title>
 
-        <script src="libraries/p5.min.js"></script>
-        <script src="libraries/p5.sound.min.js"></script>
-        <script src="libraries/helpers.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"
-            integrity="sha512-UFPpekaMf0TrCIkPv9mRT3reo/HzSjkOLq57Rtzb+E1ej1TRUOes6J/Ge4uZXyxWA9b4i5DqSZns79YaUoJ2kA=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        ></script>
-        <script src="libraries/p5.pixelator.custom.js"></script>
-    </head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
 
-    <body>
-        <select name="visualisers" id="viz-select" onChange="changeViz(this.value);">
-            <option value="01">--select--</option>
-            <option value="01">01. Little blob friend</option>
-            <option value="11">02. Ascii</option>
-            <option value="02">03. Solvent</option>
-            <option value="03">04. Hockney</option>
-            <option value="05">05. Pixelator</option>
-            <option value="06">06. Oscill</option>
-            <option value="07">07. Speeding</option>
-            <option value="08">08. Layers</option>
-            <option value="09">09. Circles</option>
-            <option value="10">10. Spinny</option>
-            <option value="04">11. Shower</option>
-        </select>
-        
-        <div id="sketch"></div>
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+    <script src="libraries/helpers.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"
+        integrity="sha512-UFPpekaMf0TrCIkPv9mRT3reo/HzSjkOLq57Rtzb+E1ej1TRUOes6J/Ge4uZXyxWA9b4i5DqSZns79YaUoJ2kA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="libraries/p5.pixelator.custom.js"></script>
+</head>
 
-        <div id="vizHolder">
-            <iframe src="02/index.html" frameborder="0"></iframe>
-        </div>
-        
-        <script id="p5script" src="audioInput.js"></script>
+<body>
+    <select name="visualisers" id="viz-select" onChange="changeViz(this.value);">
+        <option value="01">--select--</option>
 
-        <!-- <div id="lcd-display">
+        <option value="01">01. Little blob friend</option>
+        <option value="02">02. Ascii</option>
+        <option value="03">03. Solvent</option>
+        <option value="04">04. Hockney</option>
+        <option value="05">05. Oscill</option>
+        <option value="06">06. Shower</option>
+        <option value="07">07. Speeding</option>
+        <option value="08">08. Pixelator</option>
+        <option value="09">09. Circles</option>
+        <option value="10">10. Spinny</option>
+        <option value="11">11. Layers</option>
+    </select>
+
+    <div id="sketch"></div>
+
+    <div id="vizHolder">
+        <iframe src="01/index.html" frameborder="0"></iframe>
+    </div>
+
+    <script id="p5script" src="audioInput.js"></script>
+
+    <!-- <div id="lcd-display">
             <p>00. TEST</p>
         </div> -->
 
-        <script type="text/javascript">
-            function changeViz(value)
-            {
-                var s = document.createElement("iframe");
-                s.src =   value + "/index.html";
-                s.innerHTML = null;
-                s.id = "map";
-                document.getElementById("vizHolder").innerHTML = "";
-                document.getElementById("vizHolder").appendChild(s);
-            }
-        </script>
+    <script type="text/javascript">
+        function changeViz(value) {
+            var s = document.createElement("iframe");
+            s.src = value + "/index.html";
+            s.innerHTML = null;
+            s.id = "map";
+            document.getElementById("vizHolder").innerHTML = "";
+            document.getElementById("vizHolder").appendChild(s);
+        }
+    </script>
 
-    </body>
+</body>
+
 </html>

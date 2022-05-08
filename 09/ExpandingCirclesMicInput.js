@@ -74,7 +74,7 @@ function setup() {
     userChoice = "skate.mp4";
     skate = createVideo([userChoice]);
     skate.size(windowWidth, windowHeight);
-    filter(POSTERIZE, 2);
+
     skate.loop();
     skate.hide();
     skate.volume(0)
@@ -102,7 +102,6 @@ function setup() {
 
 
     fileInput = createFileInput(handleFile);
-
     fileInput.size(170, 30);
     fileInput.parent(controller);
 
@@ -123,13 +122,7 @@ function draw() {
 
 
     background(r, g, b);
-
-
-
-
     noStroke();
-
-
 
     getMicVolume();
 
@@ -153,7 +146,7 @@ function draw() {
 
             varX = radius * map(micVolume * 10, 0, 1, 1, 10);
             varY = radius;
-
+ ellipseMode(CENTER);
             if (distortion == 1) {
                 ellipse(x, y, varY, varX);
             } else if (distortion == 2) {

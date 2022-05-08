@@ -1,3 +1,10 @@
+#ifdef GL_ES
+
+precision mediump float;
+
+#endif
+
+
 
 // Get the position attribute of the geometry
 attribute vec3 aPosition;
@@ -28,6 +35,9 @@ uniform mat4 uModelViewMatrix;
 // Get the framecount uniform
 uniform float uFrameCount;
 
+uniform vec2 u_mouse;
+uniform vec2 u_resolution;
+
 varying vec2 vTexCoord;
 varying vec3 vNormal;
 
@@ -35,10 +45,8 @@ void main() {
 
   // copy the position data into a vec4, using 1.0 as the w component
     vec4 positionVec4 = vec4(aPosition, 1.0);
-
-  // Frequency and Amplitude will determine the look of the displacement
-    float frequency = 10.0;
-    float amplitude = 10.0;
+  float frequency = 100.0;
+    float amplitude = 0.1;
 
   // Displace the x position withe the sine of the x + time. Multiply by the normal to move it in the correct direction
   // You could add more distortions to the other axes too. 
@@ -50,7 +58,6 @@ void main() {
 
     float Zdistortion = cos(positionVec4.z * frequency + uFrameCount * 0.1);
     positionVec4.z += Zdistortion * aNormal.z * amplitude;
-
   // Send the normal to the fragment shader
     vNormal = aNormal;
 
