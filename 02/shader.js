@@ -22,8 +22,8 @@ function detectBeat(level) {
 
 function onBeat() {
     //define what should happen onBeat here
-        amp = -0.15;
-        move = random(0.75);
+    amp = -0.15;
+    move = random(0.75);
 }
 
 /* =============== */
@@ -35,22 +35,31 @@ let cam;
 let paintingImage;
 let move;
 let amp = 0;
-
+var imgChoice;
+let input;
 function preload() {
     theShader = loadShader(
         "shader.vert",
         "shader.frag"
     );
-    paintingImage = loadImage('../input/puzzle.jpg');
+
+
+    imgChoice = '../input/puzzle.jpg';
+    paintingImage = loadImage(imgChoice);
 }
 
 function setup() {
     createCanvas(windowWidth * 0.9, windowHeight * 0.9, WEBGL);
     noStroke();
-    emptyAudioFile = loadSound("../input/empty.mp3", loaded);
+
     audioSetup();
     fft.setInput(mic);
     move = 0.25;
+
+
+    input = createFileInput(handleFile);
+    input.parent(controller);
+    input.size(170, 30);
 }
 
 function draw() {
@@ -59,7 +68,7 @@ function draw() {
     detectBeat(micVolume)
 
     let freq = 10
-    amp +=0.025
+    amp += 0.025
 
     let scale = map(mouseY, 0, height, 1, 4)
 
@@ -72,14 +81,25 @@ function draw() {
     theShader.setUniform("u_mouseCoord", map(mouseX, 0, width, 0, 1));
     theShader.setUniform("u_micVolume", micVolume);
     theShader.setUniform("u_scale", scale);
-    theShader.setUniform("u_move", [move,move]);
+    theShader.setUniform("u_move", [move, move]);
 
     shader(theShader);
 
     rect(0, 0, width, height);
 }
 
-function mousePressed(){
+function mousePressed() {
     amp = -0.15;
     move = random(0.75);
+}
+
+
+function handleFile(file) {
+
+    if (file.type === 'image') {
+
+        paintingImage = loadImage(file.data, '');
+    } else {
+
+    }
 }

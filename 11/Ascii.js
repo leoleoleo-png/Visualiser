@@ -68,9 +68,6 @@ function setup() {
 
 
 
-  button3 = createButton('Change shapes');
-  button3.mousePressed(changeShapes);
-  button3.size(170, 30);
 
   button2 = createButton('Change font');
   button2.mousePressed(changeFont);
@@ -82,7 +79,7 @@ function setup() {
 
   slider.parent(controller);
 
-  button3.parent(controller);
+
   button2.parent(controller);
   button.parent(controller);
 
@@ -126,21 +123,7 @@ function draw() {
   getMicVolume();
 
   let val = slider.value();
-  if (shapes == 1) {
-
-    asciiart_width = 120;
-    asciiart_height = 30;
-  } else if (shapes == 2) {
-
-    asciiart_width = 10;
-  } else if (shapes == 3) {
-
-    asciiart_width = 10;
-    asciiart_height = 10;
-  }
-
-
-
+  
   micSlider = micVolume * val;
 
 
