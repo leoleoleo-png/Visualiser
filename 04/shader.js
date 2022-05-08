@@ -14,7 +14,7 @@ function detectBeat(level) {
 
 
 
-    if (level > beatCutoff > beatThreshold) {
+    if (level > beatCutoff&&level > beatThreshold) {
         onBeat();
         beatCutoff = micVolume * 1.1;
         framesSinceLastBeat = 0;

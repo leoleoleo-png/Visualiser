@@ -2,11 +2,12 @@ let mic;
 let slider;
 let slider2;
 
+let fileInput;
 
 let amplitude;
 let micVolume;
 let micVolumeHistory = new Array(30);
-
+var userChoice;
 var framed = 1;
 
 
@@ -89,12 +90,13 @@ function setup() {
 
   createCanvas(windowWidth, windowHeight);
 
+  userChoice = "backflipo.mov";
   myCapture = createVideo(
-    ["backflipo.mov", "backflipo.ogv", "backflipo.webm"],
+    [userChoice],
     myCapture
   );
 
-  myCapture.size(windowWidth / 2, windowHeight);
+  myCapture.size(windowWidth /2, windowHeight);
   myCapture.loop();
   myCapture.volume(0);
   myCapture.hide();
@@ -102,6 +104,9 @@ function setup() {
 
 
 
+  fileInput = createFileInput(handleFile);
+  fileInput.size(170, 30);
+  fileInput.parent(controller);
 
 
   userStartAudio();
@@ -187,7 +192,7 @@ function draw() {
   }
 
 
-  stroke(c);
+  //stroke(c);
 
 
 
@@ -237,6 +242,7 @@ typeArray2d = function (_arr2d, _dst, _x, _y, _w, _h) {
     console.log("[typeArray2d] _dst canvas 2d context is undefined");
     return;
   }
+  
   var dist_hor = _w / _arr2d.length;
   var dist_ver = _h / _arr2d[0].length;
   var offset_x = _x + dist_hor * 0.5;
@@ -296,14 +302,21 @@ function changeShapes() {
 
 function changeFont() {
   if (fontName == "Crosses.otf") {
+
+    fontName = "flowers.otf"; 
+    fontName2 = "flowers";
+    
+    myFont = loadFont(fontName);
+  } else if (fontName == "flowers.otf") {
     fontName = "Hertz-Regular.otf";
     fontName2 = "Hertz-Regular";
     myFont = loadFont(fontName);
-  } else if (fontName == "Hertz-Regular.otf") {
+  }else if (fontName == "Hertz-Regular.otf") {
+
 
     fontName = "Crosses.otf";
     fontName2 = "Crosses";
-
+    myFont = loadFont(fontName);
   }
 
 }
@@ -318,4 +331,23 @@ function changeImg() {
   }else if (imgChoice == "band6.jpg") {
     imgChoice = "band.jpg";
     img = loadImage(imgChoice);}
+}
+
+
+
+
+function handleFile(file) {
+
+  if (file.type === 'video') {
+
+
+      myCapture = createVideo([file.data, '']);
+      myCapture.size(windowWidth/2, windowHeight);
+
+      myCapture.loop();
+      myCapture.hide();
+      myCapture.volume(0)
+  } else {
+
+  }
 }
