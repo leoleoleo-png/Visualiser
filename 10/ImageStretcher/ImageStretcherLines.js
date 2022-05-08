@@ -54,9 +54,9 @@ function setup() {
 
 
   input = createFileInput(handleFile);
-  input.position(0, 0);
-  
   input.parent(controller);
+  input.size(170,30);
+
 }
 
 function draw() {
