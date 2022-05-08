@@ -56,6 +56,8 @@ function setup() {
   input = createFileInput(handleFile);
   input.parent(controller);
   input.size(170,30);
+  let col = color(255,255,255,0);
+    input.style('backgroundColor', col);
 
 }
 
