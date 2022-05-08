@@ -2,6 +2,10 @@
 /* BEAT DETECT */
 /* =========== */
 
+
+let detailX;
+
+
 function detectBeat(level) {
     //level should be from 0 to 1 (realistically 0 to 0.6~)
     //detect if level exceeds beatThreshold and beatCutoff
@@ -47,15 +51,19 @@ function setup() {
     // shaders require WEBGL mode to work
     createCanvas(windowWidth, windowHeight, WEBGL);
     noStroke();
-        emptyAudioFile = loadSound("../input/empty.mp3", loaded);
-        audioSetup();
-        fft.setInput(mic);
+    audioSetup();
+    fft.setInput(mic);
+
+    detailX = createSlider(1, 21, 10);
+    detailX.parent(controller);
+
 }
 
 function draw() {
     audioDraw();
     detectBeat(micVolume);
     background(0);
+
     // shader() sets the active shader with our shader
     shader(myShader);
 
@@ -68,7 +76,16 @@ function draw() {
 
     // Draw some geometry to the screen
     // We're going to tessellate the sphere a bit so we have some more geometry to work with
+
+
     sphere(width / 5, 200, 200);
+
+
+    //sphere(40, detailX.value()*micVolume, 16);
+    sphere(50, detailX.value(), 200);
+    //sphere(width / 5, 200, 3);
+
+
 
     manualFrameCount += 0.001;
 }
@@ -77,6 +94,3 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
 
-function mousePressed() {
-    
-}

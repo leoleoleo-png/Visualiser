@@ -60,6 +60,7 @@ p {
     margin: 10px;
 }
 
+
 button {
     width: 60px;
     font-size: .7rem;
@@ -125,7 +126,6 @@ input::-webkit-file-upload-button {
     background-color: var(--main-white);
     color: var(--main-black);
 }
-
 
 
 

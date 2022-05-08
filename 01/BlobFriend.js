@@ -2,14 +2,14 @@
 /*    VARIABLES    */
 /* =============== */
 
-let mic;
-let song;
-let button2;
-let playing;
+
+
+
+
 
 var colorState = 1;
 //FFT
-let fft;
+
 let spectrum;
 let binAmplitude;
 let bass, lowMid, mid, highMid, treble;
