@@ -3,15 +3,15 @@
 /* =============== */
 
 let mic;
-let song;
+
 let button;
-let playing;
-let input;
+
+let fileInput;
 let img;
 
-var state = 1;
-var distortion = 1;
-var specialMode = 1;
+
+var distortion = 2;
+
 
 let varX;
 let varY;
@@ -58,23 +58,26 @@ let skate;
 let stepSize = 5;
 
 let slider;
-let button2;
+
 let button3;
 let button4;
 let button5;
 
+var userChoice;
 
 function setup() {
 
     createCanvas(windowWidth, windowHeight);
-    pixelDensity(1)
+    pixelDensity(1);
 
     // specify multiple formats for different browsers
-    skate = createVideo(["skate.mp4"]);
+    userChoice = "skate.mp4";
+    skate = createVideo([userChoice]);
+    skate.size(windowWidth, windowHeight);
+    filter(POSTERIZE, 2);
     skate.loop();
     skate.hide();
     skate.volume(0)
-
 
 
 
@@ -91,33 +94,18 @@ function setup() {
     slider.parent(controller);
 
 
-
-
-
-    button2 = createButton('Randomise colors');
-    button2.mousePressed(changeBG);
-    button2.size(170, 30);
-
-   
-
-
     button3 = createButton('Distortion direction');
     button3.size(170, 30);
     button3.mousePressed(distortionDirection);
-
-    button4 = createButton('Special Mode');
-    button4.size(170, 30);
-    button4.mousePressed(toggleSpecialMode);
-
-
-    button5 = createButton('toggle stroke');
-    button5.size(170, 30);
-    button5.mousePressed(toggleStroke);
-
-    button2.parent(controller);
     button3.parent(controller);
-    button4.parent(controller);
-    button5.parent(controller);
+
+
+
+    fileInput = createFileInput(handleFile);
+
+    fileInput.size(170, 30);
+    fileInput.parent(controller);
+
 
 
 
@@ -133,33 +121,25 @@ let b2 = 250;
 
 function draw() {
 
-    if (specialMode == 1) {
-        background(r, g, b);
 
-    } else if (specialMode == 2) {
-        onBeat();
-    }
-
-    if (state == 1) {
-        noStroke();
-    }
-    else if (state == 2) {
+    background(r, g, b);
 
 
-        stroke(0);
-        strokeWeight(1);
-    }
+
+
+    noStroke();
+
 
 
     getMicVolume();
+
     detectBeat(micVolume * 10);
+
     let val = slider.value();
 
     skate.loadPixels();
 
-    // const stepSize = round(constrain(mouseX / 8, 6, 32));
-    stepSize = floor(map(micVolume * 10, 0, 1, 10, 20))
-
+    stepSize = floor(map(micVolume * 10, 0, 1, 10, 20));
     micVolumeSlider = micVolume * val;
 
     for (let y = 0; y < height; y += stepSize) {
@@ -169,7 +149,7 @@ function draw() {
             let darkness = (255 - skate.pixels[i * 4]) / 200;
             let radius = micVolumeSlider * darkness;
 
-            fill(r2, g2, b2)
+            fill(r2, g2, b2);
 
             varX = radius * map(micVolume * 10, 0, 1, 1, 10);
             varY = radius;
@@ -308,7 +288,7 @@ function detectBeat(level) {
     //level should be from 0 to 1 (realistically 0 to 0.6~)
     //detect if level exceeds beatThreshold and beatCutoff
     //if not advance the frames
-    if (level > beatCutoff && level > beatThreshold && specialMode == 2) {
+    if (level > beatCutoff && level > beatThreshold) {
         onBeat();
         beatCutoff = level * 1.1;
         framesSinceLastBeat = 0;
@@ -354,20 +334,18 @@ function distortionDirection() {
 
 
 
-function toggleStroke() {
-    if (state == 1) {
-        state = 2;
-    } else if (state == 2) {
-        state = 1;
-    }
+function handleFile(file) {
+
+    if (file.type === 'video') {
 
 
-}
+        skate = createVideo([file.data, '']);
+        skate.size(windowWidth, windowHeight);
 
-function toggleSpecialMode() {
-    if (specialMode == 1) {
-        specialMode = 2;
-    } else if (specialMode == 2) {
-        specialMode = 1;
+        skate.loop();
+        skate.hide();
+        skate.volume(0)
+    } else {
+
     }
 }
