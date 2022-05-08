@@ -2,6 +2,8 @@ let theShader;
 
 let mainTexture;
 let distortTexture
+var imgChoice;
+let input;
 
 function preload() {
     // load the shader
@@ -10,7 +12,10 @@ function preload() {
         "shader.frag"
     );
 
-    mainTexture = loadImage("../input/flowers.jpg");
+
+    imgChoice = "../input/flowers.jpg";
+
+    mainTexture = loadImage(imgChoice);
     distortTexture = loadImage("../input/tree2.jpg");
 }
 
@@ -26,13 +31,19 @@ function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
     noStroke();
 
+
+
+    input = createFileInput(handleFile);
+    input.parent(controller);
+    input.size(170, 30);
+
     shaderTexture = createGraphics(1, 1000, WEBGL);
 
     shaderTexture.noStroke();
 }
 
 function draw() {
-  audioDraw()
+    audioDraw()
 
     shaderTexture.shader(theShader);
 
@@ -73,5 +84,17 @@ function togglePlay() {
         sound.pause();
     } else {
         sound.loop();
+    }
+}
+
+
+
+function handleFile(file) {
+
+    if (file.type === 'image') {
+
+        mainTexture = loadImage(file.data, '');
+    } else {
+
     }
 }
