@@ -22,13 +22,13 @@ function setup() {
     fft.setInput(mic);
 
     let limitLabel = createP("SPRITE AMOUNT");
-    limitSlider = createSlider(0, 1, 0.31, 0.01);
+    limitSlider = createSlider(0, 1, 0.5, 0.01);
 
     limitLabel.parent(controller)
     limitSlider.parent(controller);
 
     let toleranceLabel = createP("TOLERANCE AMOUNT");
-    toleranceSlider = createSlider(0, 1, 0.05, 0.01);
+    toleranceSlider = createSlider(0, 1, 0.5, 0.01);
 
     toleranceLabel.parent(controller);
     toleranceSlider.parent(controller);
