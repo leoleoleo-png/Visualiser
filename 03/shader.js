@@ -56,20 +56,23 @@ function setup() {
     fft.setInput(mic);
     move = 0.25;
 
+    slider = createSlider(0.1,10,5);
+    slider.parent(controller);
 
     input = createFileInput(handleFile);
     input.parent(controller);
     let col = color(224, 224, 224,0);
- input.style('backgroundColor', col);
+    input.style('backgroundColor', col);
     input.size(170, 30);
 }
 
 function draw() {
-    background(240, 89, 10);
+
     audioDraw();
+    let val = slider.value();
     detectBeat(micVolume)
 
-    let freq = 10
+    let freq = 10*val*micVolume
     amp += 0.025
 
     let scale = map(mouseY, 0, height, 1, 4)
