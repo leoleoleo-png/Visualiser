@@ -28,7 +28,7 @@ function setup() {
     limitSlider.parent(controller);
 
     let toleranceLabel = createP("TOLERANCE AMOUNT");
-    toleranceSlider = createSlider(0, 1, 0.5, 0.01);
+    toleranceSlider = createSlider(0, 1, 0.1, 0.01);
 
     toleranceLabel.parent(controller);
     toleranceSlider.parent(controller);
