@@ -70,7 +70,7 @@ function draw() {
 
     audioDraw();
     let val = slider.value();
-    detectBeat(micVolume)
+    detectBeat(val*micVolume);
 
     let freq = 10*val*micVolume
     amp += 0.025
@@ -93,10 +93,6 @@ function draw() {
     rect(0, 0, width, height);
 }
 
-function mousePressed() {
-    amp = -0.15;
-    move = random(0.75);
-}
 
 
 function handleFile(file) {
