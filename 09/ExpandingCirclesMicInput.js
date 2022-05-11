@@ -59,9 +59,6 @@ let stepSize = 5;
 
 let slider;
 
-let button3;
-let button4;
-let button5;
 
 var userChoice;
 
@@ -74,6 +71,7 @@ function setup() {
     userChoice = "skate.mp4";
     skate = createVideo([userChoice]);
     skate.size(windowWidth, windowHeight);
+
 
     skate.loop();
     skate.hide();
@@ -90,7 +88,7 @@ function setup() {
     createAmplitude();
 
 
-    slider = createSlider(0, 2000, 1000);
+    slider = createSlider(0, 100, 50);
     slider.parent(controller);
 
 
@@ -103,8 +101,8 @@ function setup() {
 
     fileInput = createFileInput(handleFile);
     fileInput.size(170, 30);
-    let col = color(224, 224, 224,0);
-  fileInput.style('backgroundColor', col);
+    let col = color(224, 224, 224, 0);
+    fileInput.style('backgroundColor', col);
     fileInput.parent(controller);
 
 
@@ -134,7 +132,7 @@ function draw() {
 
     skate.loadPixels();
 
-    stepSize = floor(map(micVolume * 10, 0, 1, 10, 20));
+    stepSize = 20;
     micVolumeSlider = micVolume * val;
 
     for (let y = 0; y < height; y += stepSize) {
@@ -142,13 +140,16 @@ function draw() {
 
             let i = y * width + x;
             let darkness = (255 - skate.pixels[i * 4]) / 200;
-            let radius = micVolumeSlider * darkness;
+            let radius = micVolumeSlider * darkness*5;
 
             fill(r2, g2, b2);
 
-            varX = radius * map(micVolume * 10, 0, 1, 1, 10);
-            varY = radius;
- ellipseMode(CENTER);
+            varX = radius * map(micVolumeSlider, 1, 10, 0.5, 10);
+
+
+            varY = radius+1;
+           ellipseMode(CENTER);
+
             if (distortion == 1) {
                 ellipse(x, y, varY, varX);
             } else if (distortion == 2) {
@@ -204,23 +205,6 @@ function recordLevelHistory() {
 
     // remove first item in array
     levelHistory.splice(0, 1);
-}
-
-function drawLevelHistory() {
-    // loop through levelHistory[]
-    for (let i = 0; i < levelHistory.length; i++) {
-        rectMode(CENTER);
-
-        let x = map(i, levelHistory.length, 0, width / 2, width);
-        let h = map(levelHistory[i], 0, 0.5, 2, height);
-
-        let spacing = 10;
-        let w = width / (levelHistory.length * spacing);
-
-        fill(0);
-        rect(x, height / 2, w, h);
-        rect(width - x, height / 2, w, h);
-    }
 }
 
 /* ==========*/
@@ -297,6 +281,8 @@ function detectBeat(level) {
     }
 }
 
+
+
 function onBeat() {
     r = random(200, 255);
     g = random(130, 255);
@@ -308,15 +294,8 @@ function onBeat() {
 }
 
 
-function changeBG() {
-    r = random(200, 255);
-    g = random(130, 255);
-    b = random(0, 255);
 
-    r2 = random(100, 255);
-    g2 = random(100, 255);
-    b2 = random(200, 255);
-}
+
 
 
 function distortionDirection() {
@@ -332,7 +311,6 @@ function distortionDirection() {
 function handleFile(file) {
 
     if (file.type === 'video') {
-
 
         skate = createVideo([file.data, '']);
         skate.size(windowWidth, windowHeight);
