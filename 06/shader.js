@@ -29,7 +29,7 @@ function onBeat() {
 
 let myShader;
 let manualFrameCount = 0;
-let textureImage
+let textureImage;
 let spring = 0.005;
 let gravity = 0.1;
 let friction = -0.9;
@@ -47,7 +47,7 @@ function preload() {
         "shader.frag"
     );
 
-    textureImage = loadImage('../input/garbage.jpg')
+    textureImage = loadImage('../input/flowers.jpg')
 }
 
 let balls = []
@@ -57,7 +57,7 @@ function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
     
     noStroke();
-        emptyAudioFile = loadSound("../input/empty.mp3",loaded);
+  
         audioSetup();
         fft.setInput(mic);
        

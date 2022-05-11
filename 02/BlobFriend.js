@@ -7,7 +7,7 @@
 
 
 
-var colorState = 1;
+var colorState = 3;
 //FFT
 
 let spectrum;
@@ -67,7 +67,7 @@ function setup() {
     sel.size(170, 30);
 
 
-    micSlider = createSlider(0.05, 1, 0.4, 0.05);
+    micSlider = createSlider(0.05, 0.4, 0.3, 0.05);
     micSlider.parent(controller);
 
     button2 = createButton('Background color');
