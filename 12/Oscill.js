@@ -5,14 +5,15 @@ let img;
 let img2;
 let img3;
 let img4;
-
+let a = 0;
+let b = 0;
 let mic;
 var shapes = 1;
 let button;
 function preload() {
-  img2 = loadImage("clown4.png");
-  img3 = loadImage("clown3.png");
-  img4 = loadImage("clown1.png");
+  img2 = loadImage("lovers.png");
+  img3 = loadImage("arrow.png");
+  img4 = loadImage("arrow.png");
 
 }
 
@@ -54,16 +55,32 @@ function setup() {
 function draw() {
 
   let val = slider.value();
-  background(0);
+
   getMicVolume();
 
   let spectrum = fft.analyze();
 
   noStroke();
 
+
+  background(0);
+
   for (let i = 0; i < spectrum.length; i++) {
     let x = map(i, 0, spectrum.length, 0, width);
-    let h = -height + map(spectrum[i], 0, 255, height, 0);
+    let h = -height + map(spectrum[i], 0, 300, height, 0);
+    
+    image(img4, x*1.2, h+windowHeight-20, 7, 7);
+
+    image(img4, x*1.2, h+windowHeight-200,  7, 7);
+
+
+    
+    //image(img4, windowWidth/2, windowHeight/2,  h, x);
+
+   /*  image(img2, windowWidth/2, windowHeight/1.5,  x, h);
+
+    image(img2, 0, windowHeight/1.5,  x, h); */
+
 
     fft.analyze();
   }
@@ -72,40 +89,21 @@ function draw() {
 
 
   let waveform = fft.waveform();
-  noFill();
+
   beginShape();
-  stroke(255);
-  strokeWeight(1 / 2);
+ 
   for (let i = 0; i < waveform.length; i++) {
     let x = map(i, 0, waveform.length, 0, width);
     let y = map(waveform[i] * val, -1, 1, 0, height);
 
 
-    if (shapes == 1) {
-      image(img4, x, y, 10, 10);
+    //image(img2, y + windowWidth / 7, x, a, 10);
 
-
-
-    } else if (shapes == 2) {
-
-
-      image(img3, x * 2, y - windowHeight / 30, 2, 2);
-
-    } else if (shapes == 3) {
-
-      strokeWeight(1);
-      
-
-      
-
-      rect(x, y, 40);
-
-
-
-    }
-
+   
   }
+
   endShape();
+
 }
 
 
