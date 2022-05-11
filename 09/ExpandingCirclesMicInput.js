@@ -68,7 +68,7 @@ function setup() {
     pixelDensity(1);
 
     // specify multiple formats for different browsers
-    userChoice = "skate.mp4";
+    userChoice = "sunset.mp4";
     skate = createVideo([userChoice]);
     skate.size(windowWidth, windowHeight);
 
