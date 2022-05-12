@@ -8,30 +8,44 @@ let limitSlider;
 let toleranceSlider;
 
 let levelAccum = 0;
-
+var a = 0;
 let cam;
 
+
 function preload() {
-    myFile = loadImage("../input/artwork.jpg");
-    video = createVideo("../input/crowd.mp4");
+
+
+    imgChoice = '../input/puzzle.jpg';
+    myFile = loadImage(imgChoice);
+    video = createVideo("../input/sunset.mp4");
 }
 
 function setup() {
-    emptyAudioFile = loadSound("../input/empty.mp3",loaded);
+  
     audioSetup();
+
     fft.setInput(mic);
 
-    let limitLabel = createP("SPRITE AMOUNT");
-    limitSlider = createSlider(0, 1, 0.5, 0.01);
-
+    let limitLabel = createP("Circle size");
     limitLabel.parent(controller)
+    limitLabel.position(5, 40);
+
+    limitSlider = createSlider(0.1, 10.1, 5.1, 1);
     limitSlider.parent(controller);
+   
 
-    let toleranceLabel = createP("TOLERANCE AMOUNT");
-    toleranceSlider = createSlider(0, 1, 0.1, 0.01);
 
-    toleranceLabel.parent(controller);
-    toleranceSlider.parent(controller);
+   /*  let inputLabel = createP("Input your own image");
+    inputLabel.parent(controller);
+    inputLabel.position(5, 98);
+    input = createFileInput(handleFile);
+    input.parent(controller);
+    let col = color(224, 224, 224,0);
+    input.style('backgroundColor', col);
+    input.style('color', '#F8F8FF');
+    input.size(180, 30); 
+  */
+ 
 
     canvas = createCanvas(windowWidth, windowHeight, WEBGL);
     // canvas.parent("sketch");
@@ -78,19 +92,30 @@ function setup() {
         color("#0F7898"),
     ];
 
-    pixelator = new Pixelator(window, canvas, {
+    /* pixelator = new Pixelator(window, canvas, {
         type: "blocks",
         palette: myPalette,
-    });
-    // pixelator = new Pixelator(window, canvas, { type: "image", image: myFile }); // this type requires running on a server
-    // pixelator.parent("sketch");
+    }); */
+    pixelatorStart();
+
+    video.loop();
 }
 
+
+function pixelatorStart(){
+
+    pixelator = new Pixelator(window, canvas, { type: "image", image: myFile }); // this type requires running on a server
+    pixelator.parent("sketch");
+}
 function draw() {
+
+
     lights();
     background(100);
     audioDraw();
+
    
+
     video.volume(0);
     video.hide();
     video.loadPixels();
@@ -101,24 +126,36 @@ function draw() {
      image(video, 0, 0);
     pop();
 
-    // filter(THRESHOLD,0.2)
 
-    // levelAccum = levelAccum + micVolume;
 
-    // rotateX(levelAccum * 0.1);
-    // rotateY(levelAccum * 0.1);
-    // print(micVolume)
-    // strokeWeight(0);
-    // torus(200, 200);
-    // box(240);
+
+
+     torus(40*limitSlider.value(), 200);
+
 
     let mappedVolume = map(micVolume, 0, 0.6, 0.01, 0.4);
 
-    pixelator.set({ range: mappedVolume });
-    pixelator.set({ tolerance: toleranceSlider.value() });
+    pixelator.set({ range: mappedVolume});
+    pixelator.set({ tolerance: limitSlider.value()/1000 });
     pixelator.update();
+
+
 }
 
 function mousePressed(){
      video.loop();
 }
+
+/* function handleFile(file) {
+
+    if (file.type === 'image') {
+
+        myFile = loadImage(file.data, '');
+
+       
+        pixelatorStart();
+        
+    } else {
+
+    }
+} */

@@ -36,21 +36,27 @@ canvas {
 #controller {
     z-index: 9;
     width: 180px;
-    padding: 7px;
-    padding-left:5px;
+    padding: 5px;
     display: flex;
+    justify-content: center;
+    align-items:'center';
+    align-content: center;
     flex-direction: column;
-   
-    background-color: var(--main-white);
+    background-color: #F8F8FF;
     color: var(--main-black);
-  
-    border-radius: 4px;
     margin: 10px;
 }
 
 #toggleButton{
     align-self: flex-end;
-    margin-right: 5px;
+    margin-right: 0px;
+    margin-top: 0px;
+    background-color: #91E275;
+    border-width:0;
+    box-shadow: 0px 0px 0px #000000;
+    border-radius: 0;
+    width:18px;
+    height:18px;
 }
 
 p {
@@ -60,85 +66,80 @@ p {
 
 
 button {
-    width: 60px;
-    font-size: .8rem;
-    display: block;
+    width: 180px;
+    font-size: 0.8rem;
+    display: flex;
+    align-content: center;
+    justify-content: center;
     padding: 7px;
-    background-color: var(--main-white);
-    color: var(--main-black);
-    border-style: solid;
-    border-width: 1px;
-    border-color: var(--main-black);
-    border-radius: 4px;
-    box-shadow: 0px 2px 0px #000000;
-    margin: 6px;
-    margin-left: 6px;
+    background-color: #E4E4EB;
+    color: #181B1D;
+    margin-top: 5px;
+    border-width: 0px;
+
+  
 }
 
 button:active {
-    box-shadow: 0px 0px 0px #000000;
+    background-color: #91E275;
 }
 
 input {
-
-    margin: 10px;
-    margin-top: 25px;
-    margin-bottom: 20px;
-    width: 170px;
-    margin-left:5px;
-    display: block;
+    margin-top:40px;
+    width: 180px;
+    margin-bottom:15px;
+    display: flex;
+    align-self: center;
     -webkit-appearance: none;
-    height: 2px;
-    
-    background: var(--main-black);
+    height: 3px;
+    appearance: none;
+    background: #2B2B2B;
     outline: none;
+    outline-color: #E4E4EB;
     opacity: 1;
-    /* -webkit-transition: 0.2s;
-    transition: opacity 0.2s; */
 }
-/* 
+
 input:hover {
     opacity: 1;
-} */
+    
+}
 
 input::-webkit-slider-thumb {
     -webkit-appearance:none;
     appearance: none;
     width: 15px;
     height: 15px;
-    border-radius: 2px;
     border-style: solid;
     border-width: 1px;
-    box-shadow: 0px 1px 0px #000000;
-    background: #000000;
+    border-color: #E4E4EB;
+    background: #D1D1DD;
     cursor: pointer;
+    opacity: 1;
 
-  
 }
 
+select {
+  margin-top: 35px;
+  margin-bottom: 25px;
+  border-style: none;   
+  background-color: #E4E4EB;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+
+
 input::-webkit-file-upload-button {
-    border-style: none;
-    
- 
-    width: 169px;
-    font-size: .8rem;
-align-content:center;
-height:30px;
+    width: 180px;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height:30px;
+    background-color: rgb(166, 189, 255);
+    color: #181B1D;
+    border-width: 0px;
 
-justify-content: center;
-align-self: flex-end;
-
-
-
-
-    border-radius: 4px;
-    background-color: var(--main-black);
-    color: var(--main-white);
-    margin-left:1px;
-
-
-
- 
 }
 
 

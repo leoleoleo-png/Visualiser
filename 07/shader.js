@@ -32,10 +32,13 @@ function setup() {
     noStroke();
 
 
-
+    let limitLabel = createP("Add your own image");
+    limitLabel.parent(controller);
+    limitLabel.position(5, 42);
+    
     input = createFileInput(handleFile);
     input.parent(controller);
-    input.size(170, 30);
+    input.size(180, 30);
 let col = color(255,255,255,0);
     input.style('backgroundColor', col);
 

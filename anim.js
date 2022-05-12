@@ -30,8 +30,8 @@ function playCloseControllerAnimation() {
         let closeControllerAnim = gsap.timeline({});
         closeControllerAnim.to("#controller", {
             // selector text, Array, or object
-            x: -180, // any properties (not limited to CSS)
-            opacity: 1,
+            x: -150, // any properties (not limited to CSS)
+            opacity: 0.3,
             duration: 1, // seconds
         });
         closeControllerAnim.play();

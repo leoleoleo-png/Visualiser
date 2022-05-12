@@ -8,7 +8,7 @@ let img4;
 
 let mic;
 var shapes = 1;
-let button;
+
 function preload() {
   img2 = loadImage("clown4.png");
   img3 = loadImage("clown3.png");
@@ -36,14 +36,27 @@ function setup() {
   fft.setInput(mic);
   userStartAudio();
 
+  let limitLabel = createP("Sensitivity");
+  limitLabel.parent(controller);
+
   slider = createSlider(0, 4, 2);
   slider.parent(controller);
 
+  limitLabel.position(5, 40);
 
-  button = createButton('Shapes');
+
+  button = createButton('Mode A');
   button.mousePressed(changeShapes);
-  button.size(170, 30);
+
   button.parent(controller);
+
+  button2 = createButton('Mode B');
+  button2.mousePressed(changeShapesB);
+
+  button2.parent(controller);
+
+
+
 
 
 }
@@ -111,11 +124,12 @@ function draw() {
 
 function changeShapes() {
 
-  if (shapes == 1) {
-    shapes = 2;
-  } else if (shapes == 2) {
-    shapes = 3;
-  } else if (shapes == 3) {
     shapes = 1;
-  }
+ 
+}
+
+function changeShapesB() {
+
+    shapes = 2;
+  
 }

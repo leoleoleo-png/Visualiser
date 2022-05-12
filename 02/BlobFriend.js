@@ -7,7 +7,7 @@
 
 
 
-var colorState = 3;
+var colorState = 1;
 //FFT
 
 let spectrum;
@@ -56,24 +56,40 @@ let angleX = 0;
 let angleY = 0;
 
 function setup() {
-    sel = createSelect();
-    sel.option("line");
-    sel.option("polygons");
-    sel.option("cross-section");
-    sel.option("dots");
-    sel.option("wire");
-    sel.changed(selectEvent);
-    sel.parent(controller);
-    sel.size(170, 30);
+    
+
+    let limitLabel = createP("Sensitivity");
+
+    limitLabel.parent(controller);
+
+    limitLabel.position(5, 40);
+    micSlider = createSlider(0.05, 0.4, 0.23, 0.05);
 
 
-    micSlider = createSlider(0.05, 0.4, 0.3, 0.05);
     micSlider.parent(controller);
 
-    button2 = createButton('Background color');
-    button2.size(170, 30);
+    sel = createSelect();
+    sel.option("Lines");
+    sel.option("Polygons");
+    sel.option("Cross-section");
+    sel.option("Dots");
+    sel.option("Wire");
+    sel.changed(selectEvent);
+    sel.parent(controller);
+    sel.size(180, 30);
+
+    button2 = createButton('Background');
+    button2.size(180, 30);
     button2.mousePressed(changeBackgroundColor);
     button2.parent(controller);
+
+    let shapeLabel = createP("Shape option");
+
+    shapeLabel.parent(controller);
+
+    shapeLabel.position(5, 93);
+
+    
 
     createCanvas(windowWidth, windowHeight, WEBGL);
 
@@ -105,7 +121,7 @@ function superShape(theta, m, n1, n2, n3) {
 }
 
 function selectEvent() {
-    if (sel.value() == "cross-section") {
+    if (sel.value() == "Cross-section") {
     }
 }
 
@@ -113,13 +129,10 @@ function draw() {
 
 
     if (colorState == 1) {
-        background(180, 100, 100);
-
+        background(224, 224, 224, 0);
+     
     } else if (colorState == 2) {
         background('black');
-
-    } else if (colorState == 3) {
-        background(224, 224, 224, 0);
 
     }
 
@@ -173,15 +186,15 @@ function draw() {
         }
     }
 
-    if (sel.value() == "line") {
+    if (sel.value() == "Lines") {
         lines();
-    } else if (sel.value() == "cross-section") {
+    } else if (sel.value() == "Cross-section") {
         crossSection();
-    } else if (sel.value() == "polygons") {
+    } else if (sel.value() == "Polygons") {
         polygons();
-    } else if (sel.value() == "dots") {
+    } else if (sel.value() == "Dots") {
         dots();
-    } else if (sel.value() == "wire") {
+    } else if (sel.value() == "Wire") {
         wire();
     }
 }
@@ -431,8 +444,6 @@ function changeBackgroundColor() {
     if (colorState == 1) {
         colorState = 2;
     } else if (colorState == 2) {
-        colorState = 3;
-    } else if (colorState == 3) {
         colorState = 1;
-    }
+    } 
 }

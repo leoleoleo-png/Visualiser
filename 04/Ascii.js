@@ -64,7 +64,9 @@ function setup() {
   mic = new p5.AudioIn();
   mic.start();
 
-
+  let limitLabel = createP("Sensitivity");
+  limitLabel.parent(controller);
+  limitLabel.position(5, 40);
   slider = createSlider(100, 500, 300);
 
 
@@ -72,11 +74,11 @@ function setup() {
 
   button2 = createButton('Change font');
   button2.mousePressed(changeFont);
-  button2.size(170, 30);
+  button2.size(180, 30);
 
   button = createButton('Change colors');
   button.mousePressed(changeImg);
-  button.size(170, 30);
+  button.size(180, 30);
 
   slider.parent(controller);
 
@@ -89,23 +91,20 @@ function setup() {
   imageMode(CENTER);
 
   createCanvas(windowWidth, windowHeight);
-
-  userChoice = "backflipo.mov";
-  myCapture = createVideo(
-    [userChoice],
-    myCapture
-  );
-
-  myCapture.size(windowWidth /2, windowHeight);
+  myCapture = createVideo(["sunset.mp4"]);
+  myCapture.size(windowWidth*2.2, windowHeight);
+  
   myCapture.loop();
   myCapture.volume(0);
   myCapture.hide();
 
 
-
+  let inputLabel = createP("Add your own video");
+  inputLabel.parent(controller);
+  inputLabel.position(5, 170);
 
   fileInput = createFileInput(handleFile);
-  fileInput.size(170, 30);
+  fileInput.size(180, 30);
   let col = color(224, 224, 224,0);
   fileInput.style('backgroundColor', col);
 
@@ -123,6 +122,7 @@ function setup() {
 }
 
 function draw() {
+
 
   gfx = createGraphics(asciiart_width, asciiart_height);
   gfx.pixelDensity(3);
@@ -187,7 +187,7 @@ function draw() {
     gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
 
 
-    gfx.filter(POSTERIZE, 2);
+    gfx.filter(POSTERIZE, 5);
 
     ascii_arr = myAsciiArt.convert(gfx);
 
@@ -195,7 +195,7 @@ function draw() {
   }
 
 
-  //stroke(c);
+
 
 
 
@@ -345,11 +345,13 @@ function handleFile(file) {
 
 
       myCapture = createVideo([file.data, '']);
-      myCapture.size(windowWidth/2, windowHeight);
-
+      myCapture.size(windowWidth/2, windowHeight/2);
+      translate(6,6);
       myCapture.loop();
       myCapture.hide();
       myCapture.volume(0)
+
+      
   } else {
 
   }

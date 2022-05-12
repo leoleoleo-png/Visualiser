@@ -40,7 +40,11 @@ function setup() {
   createAmplitude();
 
   frameRate(60);
+  let limitLabel = createP("Sensitivity");
 
+  limitLabel.parent(controller);
+
+  limitLabel.position(5, 40);
   slider = createSlider(0, 40, 20);
   slider.parent(controller);
 
@@ -52,10 +56,14 @@ function setup() {
   shaderTexture.noStroke();
   userStartAudio();
 
+  let inputLabel = createP("Add your own video");
+  inputLabel.parent(controller);
+  inputLabel.position(5, 100);
+
 
   input = createFileInput(handleFile);
   input.parent(controller);
-  input.size(170,30);
+  input.size(180,30);
   let col = color(255,255,255,0);
     input.style('backgroundColor', col);
 

@@ -55,15 +55,26 @@ function setup() {
     audioSetup();
     fft.setInput(mic);
     move = 0.25;
+    let limitLabel = createP("Sensitivity");
+
+    limitLabel.parent(controller);
+    limitLabel.position(5, 40);
 
     slider = createSlider(0.1,10,5);
     slider.parent(controller);
 
+    let inputLabel = createP("Input your own image");
+
+    inputLabel.parent(controller);
+    inputLabel.position(5, 98);
     input = createFileInput(handleFile);
     input.parent(controller);
     let col = color(224, 224, 224,0);
     input.style('backgroundColor', col);
-    input.size(170, 30);
+    input.style('color', '#F8F8FF');
+    input.size(180, 30);
+
+
 }
 
 function draw() {

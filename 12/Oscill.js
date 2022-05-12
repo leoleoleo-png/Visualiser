@@ -9,7 +9,7 @@ let dim = 80.0;
 let img4;
 
 let mic;
-var shapes = 2;
+var shapes = 1;
 
 var varcool = 255;
 
@@ -46,7 +46,7 @@ function setup() {
 
   button = createButton('Shapes');
   button.mousePressed(changeShapes);
-  button.size(170, 30);
+  button.size(180, 30);
   button.parent(controller);
 
 
@@ -60,7 +60,7 @@ function draw() {
 
  
   getMicVolume();
-  a = a + 2*micVolume*10;
+  a = a + 5*micVolume*10;
   // If the shape goes off the canvas, reset the position
   if (a > width + dim) {
     a = -dim;

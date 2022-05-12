@@ -68,7 +68,7 @@ function setup() {
     pixelDensity(1);
 
     // specify multiple formats for different browsers
-    userChoice = "sunset.mp4";
+
     skate = createVideo([userChoice]);
     skate.size(windowWidth, windowHeight);
 
@@ -88,21 +88,31 @@ function setup() {
     createAmplitude();
 
 
+    let limitLabel = createP("Sensitivity");
+    limitLabel.parent(controller);
+    limitLabel.position(5, 40);
+
     slider = createSlider(0, 100, 50);
     slider.parent(controller);
 
 
     button3 = createButton('Distortion direction');
-    button3.size(170, 30);
+    button3.size(180, 30);
     button3.mousePressed(distortionDirection);
     button3.parent(controller);
 
 
 
+    let inputLabel = createP("Use your own video");
+
+    inputLabel.parent(controller);
+    inputLabel.position(5, 134);
+
     fileInput = createFileInput(handleFile);
-    fileInput.size(170, 30);
+    fileInput.size(180, 30);
     let col = color(224, 224, 224, 0);
     fileInput.style('backgroundColor', col);
+    
     fileInput.parent(controller);
 
 
