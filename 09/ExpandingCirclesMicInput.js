@@ -60,7 +60,7 @@ let stepSize = 5;
 let slider;
 
 
-var userChoice;
+var userChoice = 'sunset.mp4';
 
 function setup() {
 
