@@ -130,6 +130,7 @@ select {
 
 
 input::-webkit-file-upload-button {
+    -webkit-appearance:none;
     width: 180px;
     font-size: 0.8rem;
     display: flex;
