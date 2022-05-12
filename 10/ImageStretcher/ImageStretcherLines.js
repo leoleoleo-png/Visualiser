@@ -56,7 +56,7 @@ function setup() {
   shaderTexture.noStroke();
   userStartAudio();
 
-  let inputLabel = createP("Add your own video");
+  let inputLabel = createP("Add your own image");
   inputLabel.parent(controller);
   inputLabel.position(5, 100);
 
