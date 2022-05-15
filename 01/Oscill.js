@@ -103,15 +103,15 @@ function draw() {
 
 
       image(img3, x * 2, y - windowHeight / 30, 2, 2);
+      image(img3, x * 1.2, y - windowHeight / 30, 2, 2);
 
     } else if (shapes == 3) {
 
       strokeWeight(1);
       
 
-      
-
       rect(x, y, 40);
+      
 
 
 

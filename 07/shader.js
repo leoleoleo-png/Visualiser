@@ -6,7 +6,7 @@ var imgChoice;
 let input;
 
 function preload() {
-    // load the shader
+    
     theShader = loadShader(
         "shader.vert",
         "shader.frag"
@@ -16,17 +16,15 @@ function preload() {
     imgChoice = "../input/flowers.jpg";
 
     mainTexture = loadImage(imgChoice);
-    distortTexture = loadImage("../input/tree2.jpg");
+    distortTexture = loadImage("../input/displace3.jpg");
 }
 
-function mousePressed() {
-    togglePlay();
-}
+
 
 function setup() {
     // shaders require WEBGL mode to work
     audioSetup()
-    emptyAudioFile = loadSound("../input/empty.mp3", loaded);
+
 
     createCanvas(windowWidth, windowHeight, WEBGL);
     noStroke();
@@ -35,20 +33,18 @@ function setup() {
     let limitLabel = createP("Add your own image");
     limitLabel.parent(controller);
     limitLabel.position(5, 42);
-    
+
     input = createFileInput(handleFile);
     input.parent(controller);
     input.size(180, 30);
-let col = color(255,255,255,0);
+    let col = color(255, 255, 255, 0);
     input.style('backgroundColor', col);
-
-    shaderTexture = createGraphics(1, 1000, WEBGL);
-
+    shaderTexture = createGraphics(2, 2000, WEBGL);
     shaderTexture.noStroke();
 }
 
 function draw() {
-    audioDraw()
+    audioDraw();
 
     shaderTexture.shader(theShader);
 
@@ -68,14 +64,19 @@ function draw() {
 
     shaderTexture.rect(0, 0, width, height);
 
-    background(255);
+
 
     texture(shaderTexture);
 
-    translate(-width / 2, -height / 2, 0);
-
+    translate(-width / 2, -height / 2);
+    heightt = map(micVolume, 0.1, 1, 2, 5);
+   
     // rect gives us some geometry on the screen
-    rect(0, 0, width, height);
+
+    rect(0, 0, width, height*1.2);
+
+
+
 
     // copy(shaderTexture, width/2,500,30,500,0,0,width,200);
 }
@@ -84,13 +85,6 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
 
-function togglePlay() {
-    if (sound.isPlaying()) {
-        sound.pause();
-    } else {
-        sound.loop();
-    }
-}
 
 
 

@@ -53,7 +53,7 @@ function preload() {
 
   myFont = loadFont(fontName);
 
-  imgChoice = "band.jpg"
+  imgChoice = "band2.jpg"
   img = loadImage(imgChoice);
 
 
@@ -76,15 +76,13 @@ function setup() {
   button2.mousePressed(changeFont);
   button2.size(180, 30);
 
-  button = createButton('Change colors');
-  button.mousePressed(changeImg);
-  button.size(180, 30);
+
 
   slider.parent(controller);
 
 
   button2.parent(controller);
-  button.parent(controller);
+
 
   imageMode(CENTER);
 
@@ -99,7 +97,7 @@ function setup() {
 
   let inputLabel = createP("Add your own video");
   inputLabel.parent(controller);
-  inputLabel.position(5, 170);
+  inputLabel.position(5, 133);
 
   fileInput = createFileInput(handleFile);
   fileInput.size(180, 30);
@@ -127,11 +125,12 @@ function draw() {
 
   myAsciiArt = new AsciiArt(this);
   getMicVolume();
+  
 
   let val = slider.value();
   
   micSlider = micVolume * val;
-  print(micSlider);
+
 
   fillThreshold = map(micSlider, 0, 10, 1, 100);
 
@@ -141,6 +140,10 @@ function draw() {
 
   let fontLimit = constrain(fontSize, 0.1, 80);
 
+  if (fontLimit>40){
+
+    changeImg();
+  }
   textAlign(CENTER, CENTER);
 
   textFont(fontName2, fontLimit);
@@ -155,7 +158,7 @@ function draw() {
 
 
 
-    fill(c);
+    fill(c,10);
 
     for (let y = 0; y < windowHeight; y += windowHeight / 100) {
       let wow = map(micSlider, 0, 4, 1, 200);
@@ -166,9 +169,8 @@ function draw() {
     }
   }
 
-  opacity = map(micSlider, 0, 40, 0, 255);
+  opacity = map(micSlider, 0, 50, 0, 255);
   fill(0,0,0,opacity);
-
 
 
   if (myCapture !== null && myCapture !== undefined) {
@@ -322,7 +324,7 @@ function changeImg() {
   } else if (imgChoice == "band2.jpg") {
     imgChoice = "band6.jpg";
     img = loadImage(imgChoice);
-  }else if (imgChoice == "band6.jpg") {
+  } else if (imgChoice == "band6.jpg") {
     imgChoice = "band.jpg";
     img = loadImage(imgChoice);}
 }
@@ -347,3 +349,6 @@ function handleFile(file) {
 
   }
 }
+
+
+
