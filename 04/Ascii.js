@@ -25,8 +25,8 @@ let sound;
 let fontSize;
 var myAsciiArt;
 
-var asciiart_width = 120;
-var asciiart_height = 30;
+var asciiart_width = 40;
+var asciiart_height = 20;
 
 var myCapture;
 
@@ -67,7 +67,7 @@ function setup() {
   let limitLabel = createP("Sensitivity");
   limitLabel.parent(controller);
   limitLabel.position(5, 40);
-  slider = createSlider(100, 500, 300);
+  slider = createSlider(200, 700, 500);
 
 
 
@@ -86,13 +86,11 @@ function setup() {
   button2.parent(controller);
   button.parent(controller);
 
-
-
   imageMode(CENTER);
 
   createCanvas(windowWidth, windowHeight);
-  myCapture = createVideo(["sunset.mp4"]);
-  myCapture.size(windowWidth*2.2, windowHeight);
+  myCapture = createVideo(["../input/skate.mp4"]);
+  myCapture.size(windowWidth, windowHeight);
   
   myCapture.loop();
   myCapture.volume(0);
@@ -116,7 +114,7 @@ function setup() {
   createFFT();
   createAmplitude();
 
-  frameRate(30);
+
   background(0);
 
 }
@@ -133,7 +131,7 @@ function draw() {
   let val = slider.value();
   
   micSlider = micVolume * val;
-
+  print(micSlider);
 
   fillThreshold = map(micSlider, 0, 10, 1, 100);
 
@@ -141,18 +139,11 @@ function draw() {
 
   fontSize = map(micSlider, 0, 50, 0, 100);
 
-  let fontLimit = constrain(fontSize, 10, 100);
+  let fontLimit = constrain(fontSize, 0.1, 80);
 
   textAlign(CENTER, CENTER);
 
   textFont(fontName2, fontLimit);
-
-
-
-
-
-
-
 
 
 
@@ -171,12 +162,12 @@ function draw() {
       rect(i * micSlider, y, wow, micSlider / 5);
 
 
-      rect(windowWidth / 2 + i * micSlider, y, wow, micSlider / 10);
+      rect(windowWidth / 2 + i * micSlider, y, wow, micSlider / 8);
     }
   }
 
-
-  fill(0);
+  opacity = map(micSlider, 0, 40, 0, 255);
+  fill(0,0,0,opacity);
 
 
 
@@ -187,7 +178,7 @@ function draw() {
     gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
 
 
-    gfx.filter(POSTERIZE, 5);
+    gfx.filter(POSTERIZE, 2);
 
     ascii_arr = myAsciiArt.convert(gfx);
 
