@@ -25,7 +25,7 @@ let sound;
 let fontSize;
 var myAsciiArt;
 
-var asciiart_width = 80;
+var asciiart_width = 40;
 var asciiart_height = 20;
 
 var myCapture;
@@ -89,7 +89,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   myCapture = createVideo(["../input/skate.mp4"]);
   myCapture.size(windowWidth, windowHeight);
-  
+
   myCapture.loop();
   myCapture.volume(0);
   myCapture.hide();
@@ -101,10 +101,11 @@ function setup() {
 
   fileInput = createFileInput(handleFile);
   fileInput.size(180, 30);
-  let col = color(224, 224, 224,0);
+  let col = color(224, 224, 224, 0);
   fileInput.style('backgroundColor', col);
 
   fileInput.parent(controller);
+
   button4 = createButton('Switch to camera');
   button4.size(180, 30);
   button4.mousePressed(useCam);
@@ -125,29 +126,30 @@ function draw() {
 
 
   gfx = createGraphics(asciiart_width, asciiart_height);
-  gfx.pixelDensity(3);
+  gfx.pixelDensity(10);
 
   myAsciiArt = new AsciiArt(this);
   getMicVolume();
-  
+
 
   let val = slider.value();
 
 
-  
-  micSlider = 10*micVolume * val;
 
-print(micSlider);
+  micSlider = 10 * micVolume * val;
 
-  fillThreshold = map(micSlider, 0, 10, 1, 100);
 
-  pixelMove = map(micSlider, 1, 80, 2, img.width);
 
-  fontSize = map(micSlider, 0, 50, 0, 80);
 
-  let fontLimit = constrain(fontSize, 0.1, 80);
+  fillThreshold = map(micSlider, 0, 50, 1, 100);
 
-  if (fontLimit>35){
+  pixelMove = map(micSlider, 0.1, 50, 2, img.width);
+
+  fontSize = map(micSlider, 1, 50, 0, 50);
+
+  let fontLimit = constrain(fontSize, 0.1, 50);
+
+  if (fontLimit > 35) {
     changeImg();
   }
 
@@ -156,38 +158,46 @@ print(micSlider);
 
 
   noStroke();
+ 
 
-  let c = img.get(pixelMove / 2, 5);
+
+  let c = img.get(pixelMove, 5);
 
   for (let i = 0; i < windowWidth; i += windowWidth) {
 
 
 
-    fill(c,30);
+    fill(c, 30);
 
     for (let y = 0; y < windowHeight; y += windowHeight / 100) {
-      let wow = map(micSlider, 0, 4, 1, 200);
-      rect(i * micSlider, y, wow, micSlider / 5);
-      rect(windowWidth / 2 + i * micSlider, y, wow, micSlider / 8);
+      let wow = map(micSlider, 0.1, 50, 1, 1000);
+      rect(i, y, wow*1.2, micSlider / 8);
 
-      rect(windowWidth / 2 + i * 1.5, y, wow*1.2, micSlider / 10);
+      
+      rect( i*2 , y, wow*2, micSlider / 8);
+
+      rect(windowWidth  + i , y, wow, micSlider / 8);
+
+      rect(windowWidth / 2 + i , y, wow/1.5, micSlider / 8);
+
+      
     }
   }
 
-  opacity = map(micSlider, 0, 80, 0, 200);
-  fill(0);
+
+  opacity = map(micSlider, 0, 80, 0, 100);
+  fill(0,0,0,opacity);
 
 
   if (myCapture !== null && myCapture !== undefined) {
 
     gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
-    gfx.filter(POSTERIZE, 3);
+    gfx.filter(POSTERIZE, 2);
 
     ascii_arr = myAsciiArt.convert(gfx);
     myAsciiArt.typeArray2d(ascii_arr, this);
+    
   }
-
-
 
 
 
@@ -238,7 +248,7 @@ typeArray2d = function (_arr2d, _dst, _x, _y, _w, _h) {
     console.log("[typeArray2d] _dst canvas 2d context is undefined");
     return;
   }
-  
+
   var dist_hor = _w / _arr2d.length;
   var dist_ver = _h / _arr2d[0].length;
   var offset_x = _x + dist_hor * 0.5;
@@ -299,15 +309,15 @@ function changeShapes() {
 function changeFont() {
   if (fontName == "Crosses.otf") {
 
-    fontName = "flowers.otf"; 
+    fontName = "flowers.otf";
     fontName2 = "flowers";
-    
+
     myFont = loadFont(fontName);
   } else if (fontName == "flowers.otf") {
     fontName = "Hertz-Regular.otf";
     fontName2 = "Hertz-Regular";
     myFont = loadFont(fontName);
-  }else if (fontName == "Hertz-Regular.otf") {
+  } else if (fontName == "Hertz-Regular.otf") {
 
 
     fontName = "Crosses.otf";
@@ -326,7 +336,8 @@ function changeImg() {
     img = loadImage(imgChoice);
   } else if (imgChoice == "band6.jpg") {
     imgChoice = "band.jpg";
-    img = loadImage(imgChoice);}
+    img = loadImage(imgChoice);
+  }
 }
 
 
@@ -337,20 +348,18 @@ function handleFile(file) {
   if (file.type === 'video') {
 
 
-      myCapture = createVideo([file.data, '']);
-      myCapture.size(windowWidth/2, windowHeight/2);
-      translate(6,6);
-      myCapture.loop();
-      myCapture.hide();
-      myCapture.volume(0)
+    myCapture = createVideo([file.data, '']);
+    myCapture.size(windowWidth / 2, windowHeight / 2);
+    translate(6, 6);
+    myCapture.loop();
+    myCapture.hide();
+    myCapture.volume(0)
 
-      
+
   } else {
 
   }
 }
-
-
 
 
 function useCam() {
@@ -364,3 +373,4 @@ function useCam() {
 
 
 }
+
