@@ -101,12 +101,16 @@ function setup() {
     button3.mousePressed(distortionDirection);
     button3.parent(controller);
 
+    button4 = createButton('Switch to camera');
+    button4.size(180, 30);
+    button4.mousePressed(useCam);
+    button4.parent(controller);
+   
 
-
-    let inputLabel = createP("Use your own video");
+    let inputLabel = createP("Add your own video");
 
     inputLabel.parent(controller);
-    inputLabel.position(5, 134);
+    inputLabel.position(5, 170);
 
     fileInput = createFileInput(handleFile);
     fileInput.size(180, 30);
@@ -114,6 +118,10 @@ function setup() {
     fileInput.style('backgroundColor', col);
     
     fileInput.parent(controller);
+
+
+    
+
 
 
 
@@ -331,4 +339,17 @@ function handleFile(file) {
     } else {
 
     }
+}
+
+
+function useCam() {
+
+
+
+        skate = createCapture(VIDEO);
+        skate.size(windowWidth, windowHeight);
+        skate.hide();
+
+
+    
 }

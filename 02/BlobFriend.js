@@ -56,7 +56,7 @@ let angleX = 0;
 let angleY = 0;
 
 function setup() {
-    
+
 
     let limitLabel = createP("Sensitivity");
 
@@ -89,7 +89,7 @@ function setup() {
 
     shapeLabel.position(5, 93);
 
-    
+
 
     createCanvas(windowWidth, windowHeight, WEBGL);
 
@@ -130,7 +130,7 @@ function draw() {
 
     if (colorState == 1) {
         background(224, 224, 224, 0);
-     
+
     } else if (colorState == 2) {
         background('black');
 
@@ -445,5 +445,5 @@ function changeBackgroundColor() {
         colorState = 2;
     } else if (colorState == 2) {
         colorState = 1;
-    } 
+    }
 }
