@@ -67,7 +67,7 @@ function setup() {
   let limitLabel = createP("Sensitivity");
   limitLabel.parent(controller);
   limitLabel.position(5, 40);
-  slider = createSlider(200, 700, 500);
+  slider = createSlider(200, 1000, 500);
 
 
 
@@ -138,7 +138,7 @@ function draw() {
 
   fontSize = map(micSlider, 0, 50, 0, 100);
 
-  let fontLimit = constrain(fontSize, 0.1, 80);
+  let fontLimit = constrain(fontSize, 0.1, 90);
 
   if (fontLimit>40){
 
@@ -158,7 +158,7 @@ function draw() {
 
 
 
-    fill(c,10);
+    fill(c,30);
 
     for (let y = 0; y < windowHeight; y += windowHeight / 100) {
       let wow = map(micSlider, 0, 4, 1, 200);

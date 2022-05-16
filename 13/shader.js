@@ -10,16 +10,11 @@ let timer = 0;
 function createMic() {
     mic = new p5.AudioIn();
     mic.start();
-
 }
 
 function preload() {
-   
-
     imgChoice = "../input/flowers3.png";
-
     mainTexture = loadImage(imgChoice);
-
 }
 
 function getMicVolume() {
