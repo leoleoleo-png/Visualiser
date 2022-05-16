@@ -89,7 +89,7 @@ function draw() {
 
   camShader.setUniform('tex1', img);
 
-  camShader.setUniform('amt', map(micVolume, 0.0, 1, 0, 40));
+  camShader.setUniform('amt', map(micVolume, 0.0, 0.7, 0, 40));
 
   camShader.setUniform("resolution", [width, height]);
 

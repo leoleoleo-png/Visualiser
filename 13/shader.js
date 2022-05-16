@@ -13,7 +13,7 @@ function createMic() {
 }
 
 function preload() {
-    imgChoice = "../input/flowers3.png";
+    imgChoice = "../input/flowers5.png";
     mainTexture = loadImage(imgChoice);
 }
 
@@ -64,12 +64,12 @@ function draw() {
         //even if they are out of the canvas, sprites keep getting updated
         //consuming precious memory
         //use Sprite.remove() to remove a sprite from the sketch
-        if (mySprite.position.y > height + 100) mySprite.remove();
+    
+        if (mySprite.position.x > windowWidth ) mySprite.remove();
 
 
 
-
-        mySprite.setSpeed(3 * mappy, direction * mappy);
+        mySprite.setSpeed(3 * mappy, 3*mappy);
     }
 
 
@@ -78,8 +78,8 @@ function draw() {
     //draw the sprites
     drawSprites();
 
-    if (millis() >= 500 + timer) {
-        if (mappy > 4) {
+    if (millis() >= 200 + timer) {
+        if (mappy > 2) {
             imageLaunch();
         }
 
@@ -94,8 +94,8 @@ function draw() {
 
 function imageLaunch() {
 
-    let randoX = random(windowWidth);
-    let randoY = random(windowHeight);
+    let randoX = random(windowWidth/2);
+    let randoY = random(windowHeight/1.5);
 
     let newSprite = createSprite(randoX, randoY);
 

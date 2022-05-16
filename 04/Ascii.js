@@ -140,14 +140,13 @@ function draw() {
 
   let fontLimit = constrain(fontSize, 0.1, 90);
 
-  if (fontLimit>40){
+  if (fontLimit>35){
 
     changeImg();
   }
+
   textAlign(CENTER, CENTER);
-
   textFont(fontName2, fontLimit);
-
 
 
   noStroke();
@@ -163,8 +162,6 @@ function draw() {
     for (let y = 0; y < windowHeight; y += windowHeight / 100) {
       let wow = map(micSlider, 0, 4, 1, 200);
       rect(i * micSlider, y, wow, micSlider / 5);
-
-
       rect(windowWidth / 2 + i * micSlider, y, wow, micSlider / 8);
     }
   }
@@ -175,15 +172,10 @@ function draw() {
 
   if (myCapture !== null && myCapture !== undefined) {
 
-
-
     gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
-
-
     gfx.filter(POSTERIZE, 2);
 
     ascii_arr = myAsciiArt.convert(gfx);
-
     myAsciiArt.typeArray2d(ascii_arr, this);
   }
 
