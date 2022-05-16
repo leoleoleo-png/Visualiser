@@ -67,7 +67,7 @@ function setup() {
   let limitLabel = createP("Sensitivity");
   limitLabel.parent(controller);
   limitLabel.position(5, 40);
-  slider = createSlider(200, 1000, 500);
+  slider = createSlider(1, 100, 50);
 
 
 
@@ -128,20 +128,22 @@ function draw() {
   
 
   let val = slider.value();
-  
-  micSlider = micVolume * val;
 
+
+  
+  micSlider = 10*micVolume * val;
+
+print(micSlider);
 
   fillThreshold = map(micSlider, 0, 10, 1, 100);
 
   pixelMove = map(micSlider, 1, 80, 2, img.width);
 
-  fontSize = map(micSlider, 0, 50, 0, 100);
+  fontSize = map(micSlider, 0, 50, 0, 80);
 
-  let fontLimit = constrain(fontSize, 0.1, 90);
+  let fontLimit = constrain(fontSize, 0.1, 80);
 
   if (fontLimit>35){
-
     changeImg();
   }
 
@@ -166,7 +168,7 @@ function draw() {
     }
   }
 
-  opacity = map(micSlider, 0, 50, 0, 255);
+  opacity = map(micSlider, 0, 80, 0, 230);
   fill(0,0,0,opacity);
 
 
