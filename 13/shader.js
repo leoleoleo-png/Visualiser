@@ -6,7 +6,7 @@ let direction = 90;
 let GRAVITY = 0.2;
 var imgChoice;
 let timer = 0;
-
+var shapes = 1;
 function createMic() {
     mic = new p5.AudioIn();
     mic.start();
@@ -24,12 +24,14 @@ function getMicVolume() {
 function setup() {
     createCanvas(windowWidth, windowHeight);
 
-    
+
     mic = new p5.AudioIn();
     mic.start();
     fft = new p5.FFT();
     fft.setInput(mic);
     userStartAudio();
+
+ 
 
     let limitLabel = createP("Add your own image");
     limitLabel.parent(controller);
@@ -47,7 +49,7 @@ function draw() {
     //background(255);
     fill(0);
     getMicVolume();
-    
+
     let mappy = map(micVolume, 0, 1, 0, 10);
 
     //the best way to organize sprites is to use a custom group (see Group class)
@@ -64,12 +66,12 @@ function draw() {
         //even if they are out of the canvas, sprites keep getting updated
         //consuming precious memory
         //use Sprite.remove() to remove a sprite from the sketch
-    
-        if (mySprite.position.x > windowWidth ) mySprite.remove();
+
+        if (mySprite.position.x > windowWidth) mySprite.remove();
 
 
 
-        mySprite.setSpeed(3 * mappy, 3*mappy);
+        mySprite.setSpeed(3 * mappy, 3 * mappy);
     }
 
 
@@ -81,10 +83,15 @@ function draw() {
     if (millis() >= 200 + timer) {
         if (mappy > 2) {
             imageLaunch();
+            changeImg();
         }
 
         timer = millis();
     }
+
+
+
+
 
 
 
@@ -94,8 +101,8 @@ function draw() {
 
 function imageLaunch() {
 
-    let randoX = random(windowWidth/2);
-    let randoY = random(windowHeight/1.5);
+    let randoX = random(windowWidth / 2);
+    let randoY = random(windowHeight / 1.5);
 
     let newSprite = createSprite(randoX, randoY);
 
@@ -103,12 +110,12 @@ function imageLaunch() {
     newSprite.addAnimation(
         'normal',
         mainTexture,
-     
+
     );
 
     //and set it to a random frame
     newSprite.animation.stop();
-   
+
 
 
 }
@@ -119,8 +126,23 @@ function handleFile(file) {
     if (file.type === 'image') {
 
         mainTexture = loadImage(file.data, '');
- 
+
     } else {
 
+    }
+}
+
+
+
+function changeImg() {
+    if (imgChoice == "../input/flowers5.png") {
+        imgChoice = "../input/flowers3.png";
+        mainTexture = loadImage(imgChoice);
+    } else if (imgChoice == "../input/flowers3.png") {
+        imgChoice = "../input/flowers2.png";
+        mainTexture = loadImage(imgChoice);
+    } else if (imgChoice == "../input/flowers2.png") {
+        imgChoice = "../input/flowers5.png";
+        mainTexture = loadImage(imgChoice);
     }
 }
