@@ -25,6 +25,14 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
 
 
+  let limitLabel = createP("Sensitivity");
+  limitLabel.parent(controller);
+
+  slider = createSlider(0.5, 3.5, 2, 0.1);
+  slider.parent(controller);
+
+  limitLabel.position(5, 40);
+
     mic = new p5.AudioIn();
     mic.start();
     fft = new p5.FFT();
@@ -33,15 +41,7 @@ function setup() {
 
  
 
-    let limitLabel = createP("Add your own image");
-    limitLabel.parent(controller);
-    limitLabel.position(5, 42);
-
-    input = createFileInput(handleFile);
-    input.parent(controller);
-    input.size(180, 30);
-    let col = color(255, 255, 255, 0);
-    input.style('backgroundColor', col);
+  
 
 }
 
@@ -50,7 +50,7 @@ function draw() {
     fill(0);
     getMicVolume();
 
-    let mappy = map(micVolume, 0, 1, 0, 10);
+    let mappy = map(micVolume*slider.value(), 0, 1, 0, 10);
 
     //the best way to organize sprites is to use a custom group (see Group class)
     //however, all sprites are automatically added to a default group allSprites
@@ -84,6 +84,7 @@ function draw() {
         if (mappy > 2) {
             imageLaunch();
             changeImg();
+
         }
 
         timer = millis();
@@ -102,9 +103,9 @@ function draw() {
 function imageLaunch() {
 
     let randoX = random(windowWidth / 2);
-    let randoY = random(windowHeight / 1.5);
+    let randoY = random(windowHeight );
 
-    let newSprite = createSprite(randoX, randoY);
+    let newSprite = createSprite(randoX, randoY-100);
 
     //assign an animation
     newSprite.addAnimation(
@@ -118,18 +119,6 @@ function imageLaunch() {
 
 
 
-}
-
-
-function handleFile(file) {
-
-    if (file.type === 'image') {
-
-        mainTexture = loadImage(file.data, '');
-
-    } else {
-
-    }
 }
 
 
