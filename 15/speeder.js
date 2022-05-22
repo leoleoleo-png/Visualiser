@@ -47,6 +47,16 @@ function setup() {
 
 
 
+  let inputLabel = createP("Add your own image");
+  inputLabel.parent(controller);
+  inputLabel.position(5, 100);
+
+  fileInput = createFileInput(handleFile);
+  fileInput.size(180, 30);
+  let col = color(224, 224, 224, 0);
+  fileInput.style('backgroundColor', col);
+
+  fileInput.parent(controller);
 
 
 }
@@ -93,22 +103,24 @@ function draw() {
       varImg = img2;
     } else if (shapes == 3) {
       varImg = img3;
-    }else if (shapes == 4) {
+    } else if (shapes == 4) {
       varImg = img4;
+    }else if (shapes == 5) {
+      varImg = img;
     }
 
-    image(varImg, x * 1.2, y, 100 * mix, 100 * mix);
+    image(varImg, x * 1.2, y, 100 * mix, 50*mix);
 
   }
 
   endShape();
 
 
-  copy(0, windowHeight / 2, windowWidth, 100, 0, 0, windowWidth*10*10, windowHeight / 2);
+  copy(0, windowHeight / 2, windowWidth, 100, 0, 0, windowWidth * 10 * 10, windowHeight / 2);
 
-  copy(0, windowHeight / 2, windowWidth, 100, 0, windowHeight / 2, windowWidth , windowHeight / 2);
+  copy(0, windowHeight / 2, windowWidth, 100, 0, windowHeight / 2, windowWidth, windowHeight / 2);
 
-copy(0,windowHeight/2, windowWidth, windowHeight/2, 0,0, windowWidth,windowHeight/2);
+  copy(0, windowHeight / 2, windowWidth, windowHeight / 2, 0, 0, windowWidth, windowHeight / 2);
 
 
   if (millis() >= 5000 + timer) {
@@ -117,8 +129,8 @@ copy(0,windowHeight/2, windowWidth, windowHeight/2, 0,0, windowWidth,windowHeigh
     timer = millis();
   }
 
-  fill(250,10);
-  rect(0,windowHeight/2,windowWidth,2);
+  fill(250, 10);
+  rect(0, windowHeight / 2, windowWidth, 2);
 }
 
 
@@ -135,10 +147,20 @@ function shapesRandom() {
   } else if (shapes == 3) {
 
     shapes = 4;
-  }else if (shapes == 4) {
+  } else if (shapes == 4) {
 
     shapes = 1;
   }
 
 }
 
+
+function handleFile(file) {
+
+  if (file.type === 'image') {
+shapes = 5;
+    img = loadImage(file.data, '');
+  } else {
+
+  }
+}
