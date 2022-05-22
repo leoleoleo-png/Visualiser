@@ -68,7 +68,7 @@ function setup() {
   let limitLabel = createP("Sensitivity");
   limitLabel.parent(controller);
   limitLabel.position(5, 40);
-  slider = createSlider(1, 70, 35);
+  slider = createSlider(0, 10, 5);
 
 
 
@@ -127,11 +127,11 @@ function draw() {
   micSlider = 10 * micVolume * val;
 
 
-  pixelMove2 = map(micSlider, 0, 200, 0, img.width);
+  pixelMove2 = map(micVolume*val, 0, 2, 0, img.width);
 
-  pixelMove = constrain(pixelMove2, 0, 600);
+  pixelMove = constrain(pixelMove2, 0, img.width);
 
-  let fontSize = map(micSlider, 0, 200, 0, 80);
+  let fontSize = map(micVolume*val, 0, 0.5, 0, 80);
   let fontLimit = constrain(fontSize, 0, 80);
 
   let fontFinal = fontLimit * multip;
@@ -153,7 +153,7 @@ print(micSlider);
 
 
 
-  let e = img.get(pixelMove / 9, 6);
+  let e = img.get(pixelMove , 6);
 
   let o = img.get(pixelMove, img.height / 2);
 
@@ -191,42 +191,59 @@ print(micSlider);
     myAsciiArt.typeArray2d(ascii_arr, this);
   }
 
-  let c = img.get(pixelMove / 1.5, img.height / 2);
-  let n = img.get(pixelMove / 2.5, img.height / 2);
+  let c = img.get(pixelMove , img.height / 2);
+  let n = img.get(pixelMove, img.height / 2);
 
 
   if (millis() >= 200 + timer) {
 
     background(n);
+    if(micVolume*val>1){
+
+      changeImg();
+    }
+
     timer = millis();
   }
 
   fill(c);
-  for (let i = 0; i < windowWidth; i += 1000) {
+  for (let i = 0; i < windowWidth; i += 500) {
 
 
 
     for (let y = 0; y < windowHeight; y += windowHeight / 100) {
-      let wow = map(micSlider, 0, 140, 1, 800);
+      let wow = map(micVolume*val, 0, 2, 1, 500);
 
 
 
-      rect(i, y, wow * 1.2, 3);
+      rect(i*micVolume*val, y, wow * 1.2, 3);
       rect(i + windowWidth / 2, y, wow * 1.2, 3);
 
       fill(o);
-      rect(i + windowWidth, y, -wow * 1.2, 3);
+      rect(i*micVolume*val + windowWidth, y, -wow * 1.2, 3);
 
       fill(e);
 
-      rect(i + windowWidth / 2, y, -wow * 1.3, 3);
+      rect(i*micVolume*val + windowWidth / 2, y, -wow * 1.3, 3);
 
-      rect(i + 400, y, wow * 1.3, 3);
+      rect(i*micVolume*val + 400, y, wow * 1.3, 3);
     }
   }
 
 
 
+  fill(0);
+
+
+
+  if (myCapture !== null && myCapture !== undefined) {
+
+    gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
+    gfx.filter(POSTERIZE, 2);
+
+    ascii_arr = myAsciiArt.convert(gfx);
+    myAsciiArt.typeArray2d(ascii_arr, this);
+  }
 
 }
 
@@ -354,14 +371,14 @@ function changeFont() {
 }
 
 function changeImg() {
-  if (imgChoice == "band10.png") {
-    imgChoice = "band2.jpg";
+  if (imgChoice == "band2.jpg") {
+    imgChoice = "band10.png";
     img = loadImage(imgChoice);
     multip = 1.5;
     asciiart_width = 100;
     asciiart_height = 20;
 
-  } else if (imgChoice == "band2.jpg") {
+  } else if (imgChoice == "band10.png") {
     imgChoice = "band5.jpg";
     img = loadImage(imgChoice);
     multip = 4;
@@ -370,7 +387,7 @@ function changeImg() {
     asciiart_width = 5;
     asciiart_height = 10;
   } else if (imgChoice == "band5.jpg") {
-    imgChoice = "band10.png";
+    imgChoice = "band2.jpg";
     img = loadImage(imgChoice);
     multip = 1;
 
