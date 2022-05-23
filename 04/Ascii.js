@@ -167,7 +167,7 @@ print(micSlider);
   if (millis() >= 150 + timer2) {
 
 
-    if (micSlider > 80) {
+    if (micSlider > 40) {
       changeImg();
     }
  
