@@ -149,7 +149,7 @@ function draw() {
 
     micVolumeSlider = micVolume * val;
     let swag = map(micVolumeSlider, 0, 10, 10, 20);
-    stepSize = 15;
+    stepSize = 12;
 
     for (let y = 0; y < height; y += stepSize) {
         for (let x = 0; x < width; x += stepSize) {
