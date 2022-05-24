@@ -55,14 +55,17 @@ function setup() {
 
 function draw() {
 
+
   let val = slider.value();
 
   getMicVolume();
+
   let mix = val * 5 * micVolume;
 
-  let mox = map(mix, 0, 2, 2, 7);
+  let mox = map(mix, 0, 0.5, 1, 10);
+  print(mox);
   noStroke();
- 
+
 
   imageMode(CENTER);
 
@@ -76,7 +79,7 @@ function draw() {
 
   for (let i = 0; i < waveform.length; i++) {
     let x = map(i, 0, waveform.length, 0, width);
-    let y = map(waveform[i], -1, 1, 0, height);
+    let y = map(waveform[i] * 20, -1, 1, 0, height);
 
 
     if (shapes == 1) {
@@ -87,22 +90,43 @@ function draw() {
       varImg = img4;
     }
 
-    image(varImg, x * 1.2, y, 100 * mix, 100 * mix);
+    image(varImg, y * 2, x, 1000 * mix, 1000 * mix);
+
+    rotate(PI / micVolume / 10);
+
+    if (mox > 2) {
+
+      rotate(PI / micVolume * 2);
+
+    }
+
+
+    if (mox > 1.5) {
+
+      rotate(PI / micVolume);
+
+    }
+
+
+
+
+
 
   }
 
   endShape();
 
 
-  copy(0, windowHeight / 2, windowWidth, 100, 0, 0, windowWidth * mox, windowHeight / 2);
-
-  copy(0, windowHeight / 2, windowWidth, 100, 0, windowHeight / 2, windowWidth * mox, windowHeight / 2);
 
 
 
-  if (millis() >= 5000 + timer) {
 
-    shapesRandom();
+
+
+  if (millis() >= 1000 + timer) {
+
+    if (mox > 1.5)
+      shapesRandom();
     timer = millis();
   }
 

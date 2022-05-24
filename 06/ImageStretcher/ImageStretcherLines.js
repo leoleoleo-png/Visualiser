@@ -45,7 +45,7 @@ function setup() {
   limitLabel.parent(controller);
 
   limitLabel.position(5, 40);
-  slider = createSlider(0, 40, 20);
+  slider = createSlider(0, 60, 30);
   slider.parent(controller);
 
 
@@ -63,9 +63,9 @@ function setup() {
 
   input = createFileInput(handleFile);
   input.parent(controller);
-  input.size(180,30);
-  let col = color(255,255,255,0);
-    input.style('backgroundColor', col);
+  input.size(180, 30);
+  let col = color(255, 255, 255, 0);
+  input.style('backgroundColor', col);
 
 }
 
@@ -75,7 +75,7 @@ function draw() {
 
   getMicVolume();
 
-  let micSlider = val * micVolume ;
+  let micSlider = val * micVolume;
 
   shaderTexture.shader(camShader);
 
@@ -89,7 +89,7 @@ function draw() {
 
   camShader.setUniform('tex1', img);
 
-  camShader.setUniform('amt', map(micVolume, 0.0, 0.7, 0, 40));
+  camShader.setUniform('amt', map(micVolume, 0.0, 0.6, 0, 40));
 
   camShader.setUniform("resolution", [width, height]);
 
@@ -103,9 +103,10 @@ function draw() {
 
   noStroke();
 
-  copy(shaderTexture, 0, 0, micSlider ,micSlider , 0, 0, windowWidth, windowHeight);
+  copy(shaderTexture, 0, 0, micSlider, micSlider, 0, 0, windowWidth, windowHeight);
 
-  let pixelMove = map(micSlider, 0, 10, 0, img.width)
+
+  let pixelMove = map(micSlider, 0, 200, 0, img.width)
 
 
   beginShape();
@@ -116,7 +117,7 @@ function draw() {
     let x = map(i, 0, waveform.length, 0, width);
     let y = map(waveform[i], -1, 1 * micVolume * 10, 0, height);
 
-    let e = (img.get(pixelMove, height / 2));
+    let e = (img.get(pixelMove, img.height / 2));
 
     stroke(e);
     strokeWeight(20);
@@ -126,30 +127,31 @@ function draw() {
     ellipse(x * 2, y, 1, 20 * micSlider);
 
     strokeWeight(1);
-    
+
     let r = random(windowWidth);
 
-   
-    
-      rotating();
-    
+
+
+    rotating();
+
     fill(255);
-    strokeWeight(1/3);
-    stroke(255,255,255,3);
-    
-  
+    strokeWeight(1 / 3);
+    stroke(255, 255, 255, 3);
+
+
     if (frameCount % 5 == 0) {
       ellipse(micSlider, r / 2, 10, 10);
+
     }
     if (frameCount % 3 == 0) {
-      ellipse(r*1.5, r / 2, 5, 5);
+      ellipse(r * 1.5, r / 2, 5, 5);
     }
-  
+
     if (frameCount % 15 == 0) {
-      ellipse(r*2*micSlider, r / 2, 15, 15);
+      ellipse(r * 2 * micSlider, r / 2, 15, 15);
     }
-  
-    
+
+
     translate(0.8 * width, height / 2);
   }
   endShape();

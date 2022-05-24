@@ -86,6 +86,14 @@ function draw() {
     audioDraw();
     detectBeat(micVolume);
     background(0);
+
+    for (let i = 0; i < balls.length; i++) {
+        // balls[i].move()
+        balls[i].grow(stretch);
+        balls[i].show();
+        
+    }
+    
     copy(
         textureImage,
         map(micVolume, 0, 1, 0, 100),
@@ -108,7 +116,7 @@ function draw() {
     myShader.setUniform("u_texture", textureImage);
 
     // Rotate our geometry on the X and Y axes
-    // translate(0,70);
+ // translate(0,70);
 
 
     // rotateX(inc%360);
@@ -116,12 +124,7 @@ function draw() {
     // inc += 0.01;
     // rotateY(100);
 
-    for (let i = 0; i < balls.length; i++) {
-        // balls[i].move()
-        balls[i].grow(stretch);
-        balls[i].show();
-        
-    }
+   
 
     //stepped mapping
     stretch = ceil(map(micVolume, 0, 0.5, 0, 20))*40;
@@ -129,11 +132,11 @@ function draw() {
     //normal volume mapping
     //stretch = map(micVolume, 0, 0.5, 80, 500);
 
-    // for (let i = 0; i < balls.length; i++) {
-    //     balls[i].collide();
-    //     balls[i].move();
-    //     balls[i].display();
-    // }
+     /* for (let i = 0; i < balls.length; i++) {
+         balls[i].collide();
+         balls[i].move();
+         balls[i].display();
+    } */
 
     // Draw some geometry to the screen
     // We're going to tessellate the sphere a bit so we have some more geometry to work with

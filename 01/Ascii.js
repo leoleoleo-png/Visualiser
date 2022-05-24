@@ -131,7 +131,7 @@ function draw() {
 
   pixelMove = constrain(pixelMove2, 0, img.width);
 
-  let fontSize = map(micVolume*val, 0, 0.5, 0, 80);
+  let fontSize = map(micVolume*val, 0, 0.8, 0, 80);
   let fontLimit = constrain(fontSize, 0, 80);
 
   let fontFinal = fontLimit * multip;
@@ -141,16 +141,10 @@ function draw() {
   textFont(fontName2, fontFinal);
 
   gfx = createGraphics(asciiart_width, asciiart_height);
-  gfx.pixelDensity(2);
+  gfx.pixelDensity(10);
 
 
   myAsciiArt = new AsciiArt(this);
-
-
-
-
-print(micSlider);
-
 
 
   let e = img.get(pixelMove , 6);
@@ -162,51 +156,24 @@ print(micSlider);
   noStroke();
 
 
- 
-
-  if (millis() >= 150 + timer2) {
-
-
-    if (micSlider > 40) {
-      changeImg();
-    }
- 
-    timer2 = millis();
-  }
-
-
-
-
-
-  fill(0);
-
-
-
-  if (myCapture !== null && myCapture !== undefined) {
-
-    gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
-    gfx.filter(POSTERIZE, 2);
-
-    ascii_arr = myAsciiArt.convert(gfx);
-    myAsciiArt.typeArray2d(ascii_arr, this);
-  }
-
   let c = img.get(pixelMove , img.height / 2);
   let n = img.get(pixelMove, img.height / 2);
 
 
-  if (millis() >= 200 + timer) {
+   if (millis() >= 500 + timer) {
 
     background(n);
-    if(micVolume*val>1){
+
+    if(micVolume*val>0.3){
 
       changeImg();
     }
 
     timer = millis();
-  }
+  } 
 
   fill(c);
+
   for (let i = 0; i < windowWidth; i += 500) {
 
 
@@ -239,7 +206,7 @@ print(micSlider);
   if (myCapture !== null && myCapture !== undefined) {
 
     gfx.image(myCapture, 0, 0, gfx.width, gfx.height);
-    gfx.filter(POSTERIZE, 2);
+    gfx.filter(POSTERIZE, 3);
 
     ascii_arr = myAsciiArt.convert(gfx);
     myAsciiArt.typeArray2d(ascii_arr, this);
@@ -391,8 +358,8 @@ function changeImg() {
     img = loadImage(imgChoice);
     multip = 1;
 
-    asciiart_width = 100;
-    asciiart_height = 20;
+    asciiart_width = 90;
+    asciiart_height = 15;
   }
 }
 

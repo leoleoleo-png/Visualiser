@@ -55,7 +55,7 @@ let framesSinceLastBeat = 0; // once this equals beatHoldFrames, beatCutoff star
 /* =============== */
 
 let skate;
-let stepSize = 5;
+var stepSize;
 
 let slider;
 
@@ -65,7 +65,7 @@ var userChoice = 'sunset.mp4';
 function setup() {
 
     createCanvas(windowWidth, windowHeight);
-    pixelDensity(1);
+    pixelDensity(2);
 
     // specify multiple formats for different browsers
 
@@ -92,7 +92,7 @@ function setup() {
     limitLabel.parent(controller);
     limitLabel.position(5, 40);
 
-    slider = createSlider(0, 100, 50);
+    slider = createSlider(0, 150, 75);
     slider.parent(controller);
 
 
@@ -105,7 +105,7 @@ function setup() {
     button4.size(180, 30);
     button4.mousePressed(useCam);
     button4.parent(controller);
-   
+
 
     let inputLabel = createP("Add your own video");
 
@@ -116,11 +116,11 @@ function setup() {
     fileInput.size(180, 30);
     let col = color(224, 224, 224, 0);
     fileInput.style('backgroundColor', col);
-    
+
     fileInput.parent(controller);
 
 
-    
+
 
 
 
@@ -141,32 +141,30 @@ function draw() {
 
     background(r, g, b);
     noStroke();
-
     getMicVolume();
-
     detectBeat(micVolume * 10);
 
     let val = slider.value();
-
     skate.loadPixels();
 
-    stepSize = 20;
     micVolumeSlider = micVolume * val;
+    let swag = map(micVolumeSlider, 0, 10, 10, 20);
+    stepSize = 15;
 
     for (let y = 0; y < height; y += stepSize) {
         for (let x = 0; x < width; x += stepSize) {
 
             let i = y * width + x;
             let darkness = (255 - skate.pixels[i * 4]) / 200;
-            let radius = micVolumeSlider * darkness*5;
+            let radius = micVolumeSlider * darkness * 5;
 
             fill(r2, g2, b2);
 
             varX = radius * map(micVolumeSlider, 1, 10, 0.5, 10);
 
 
-            varY = radius+1;
-           ellipseMode(CENTER);
+            varY = radius + 1;
+            ellipseMode(CENTER);
 
             if (distortion == 1) {
                 ellipse(x, y, varY, varX);
@@ -306,6 +304,7 @@ function onBeat() {
     g = random(130, 255);
     b = random(0, 255);
 
+
     r2 = random(100, 255);
     g2 = random(100, 255);
     b2 = random(200, 255);
@@ -332,10 +331,9 @@ function handleFile(file) {
 
         skate = createVideo([file.data, '']);
         skate.size(windowWidth, windowHeight);
-
         skate.loop();
         skate.hide();
-        skate.volume(0)
+        skate.volume(0);
     } else {
 
     }
@@ -344,12 +342,8 @@ function handleFile(file) {
 
 function useCam() {
 
+    skate = createCapture(VIDEO);
+    skate.size(windowWidth, windowHeight);
+    skate.hide();
 
-
-        skate = createCapture(VIDEO);
-        skate.size(windowWidth, windowHeight);
-        skate.hide();
-
-
-    
 }
