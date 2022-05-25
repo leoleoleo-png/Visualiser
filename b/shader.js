@@ -13,7 +13,7 @@ function preload() {
     );
 
 
-    imgChoice = "../input/flowers.jpg";
+    imgChoice = "img2.png";
 
     mainTexture = loadImage(imgChoice);
     distortTexture = loadImage("../input/displace3.jpg");
@@ -39,7 +39,7 @@ function setup() {
     input.size(180, 30);
     let col = color(255, 255, 255, 0);
     input.style('backgroundColor', col);
-    shaderTexture = createGraphics(2, 2000, WEBGL);
+    shaderTexture = createGraphics(1, windowWidth, WEBGL);
     shaderTexture.noStroke();
 }
 
@@ -58,12 +58,11 @@ function draw() {
 
     theShader.setUniform("u_distortTexture", distortTexture);
 
-    theShader.setUniform("u_amt", map(micVolume, 0.0, 0.8, 0, 1));
+    theShader.setUniform("u_amt", map(micVolume, 0.0, 0.9, 0, 1));
 
     theShader.setUniform("u_resolution", [width, height]);
 
     shaderTexture.rect(0, 0, width, height);
-
 
 
     texture(shaderTexture);
@@ -79,7 +78,7 @@ function draw() {
 
 
 
-    // copy(shaderTexture, width/2,500,30,500,0,0,width,200);
+
 }
 
 function windowResized() {

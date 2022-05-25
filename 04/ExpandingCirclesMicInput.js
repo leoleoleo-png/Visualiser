@@ -3,13 +3,15 @@
 /* =============== */
 
 let mic;
-
+let timer = 0;
+let timer2 = 0;
 let button;
 
 let fileInput;
 let img;
 
-
+var v = 255;
+var u = 0;
 var distortion = 2;
 
 
@@ -60,12 +62,22 @@ var stepSize;
 let slider;
 
 
-var userChoice = 'sunset.mp4';
+
+var userChoice = 'skate.mp4';
+
+function preload() {
+
+
+    imgChoice = "band5.jpg"
+    img = loadImage(imgChoice);
+
+
+}
 
 function setup() {
 
     createCanvas(windowWidth, windowHeight);
-    pixelDensity(2);
+    pixelDensity(1);
 
     // specify multiple formats for different browsers
 
@@ -96,10 +108,7 @@ function setup() {
     slider.parent(controller);
 
 
-    button3 = createButton('Distortion direction');
-    button3.size(180, 30);
-    button3.mousePressed(distortionDirection);
-    button3.parent(controller);
+   
 
     button4 = createButton('Switch to camera');
     button4.size(180, 30);
@@ -110,7 +119,7 @@ function setup() {
     let inputLabel = createP("Add your own video");
 
     inputLabel.parent(controller);
-    inputLabel.position(10, 170);
+    inputLabel.position(10, 140);
 
     fileInput = createFileInput(handleFile);
     fileInput.size(180, 30);
@@ -119,17 +128,21 @@ function setup() {
 
     fileInput.parent(controller);
 
+    let inputLabel2 = createP("Upload an image");
+    inputLabel2.parent(controller);
+    inputLabel2.position(10, 224);
 
-
-
-
+    fileInput2 = createFileInput(handleFile2);
+    fileInput2.size(180, 30);
+    fileInput2.style('backgroundColor', col);
+    fileInput2.parent(controller);
 
 
 
 }
 
 let r = 200;
-let g = 100;
+let g = 190;
 let b = 255;
 
 let r2 = 200;
@@ -139,7 +152,7 @@ let b2 = 250;
 function draw() {
 
 
-    background(r, g, b);
+
     noStroke();
     getMicVolume();
     detectBeat(micVolume * 10);
@@ -148,23 +161,54 @@ function draw() {
     skate.loadPixels();
 
     micVolumeSlider = micVolume * val;
-    let swag = map(micVolumeSlider, 0, 10, 10, 20);
-    stepSize = 12;
+
+    let swag = map(micVolumeSlider, 0, 20, 5, 30);
+
+
+    pixelMove = map(micVolumeSlider, 0, 20, 0, img.width);
+
+    pixelMove2 = map(micVolumeSlider, 0, 20, 20, 1000);
+
+
+    if (millis() >= 200 + timer) {
+
+        if(micVolumeSlider>8){
+
+            u = img.get(pixelMove, 3);
+            timer = millis();
+        }
+       
+    }
+
+
+    if (millis() >= 300 + timer2) {
+
+     
+
+        if(micVolumeSlider>8){
+            v = img.get(pixelMove2, 10);
+            timer2 = millis();
+        }
+    }
+
+    stepSize = 20;
+    background(v);
 
     for (let y = 0; y < height; y += stepSize) {
         for (let x = 0; x < width; x += stepSize) {
 
             let i = y * width + x;
             let darkness = (255 - skate.pixels[i * 4]) / 200;
-            let radius = micVolumeSlider * darkness * 5;
+            let radius = swag * darkness;
 
-            fill(r2, g2, b2);
+            fill(u);
 
-            varX = radius * map(micVolumeSlider, 1, 10, 0.5, 10);
+            varX = radius * map(micVolumeSlider, 1, 15, 0, 12);
 
 
-            varY = radius + 1;
-            ellipseMode(CENTER);
+            varY = radius-2;
+
+
 
             if (distortion == 1) {
                 ellipse(x, y, varY, varX);
@@ -300,14 +344,7 @@ function detectBeat(level) {
 
 
 function onBeat() {
-    r = random(200, 255);
-    g = random(130, 255);
-    b = random(0, 255);
-
-
-    r2 = random(100, 255);
-    g2 = random(100, 255);
-    b2 = random(200, 255);
+    //distortionDirection();
 }
 
 
@@ -346,4 +383,14 @@ function useCam() {
     skate.size(windowWidth, windowHeight);
     skate.hide();
 
+}
+
+function handleFile2(file) {
+
+    if (file.type === 'image') {
+
+        img = loadImage(file.data, '');
+    } else {
+
+    }
 }

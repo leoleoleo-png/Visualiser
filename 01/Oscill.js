@@ -45,15 +45,15 @@ function setup() {
   limitLabel.position(10, 40);
 
 
-  button = createButton('Mode A');
+ /*  button = createButton('Mode A');
   button.mousePressed(changeShapes);
 
-  button.parent(controller);
+  button.parent(controller); */
 
-  button2 = createButton('Mode B');
+ /*  button2 = createButton('Mode B');
   button2.mousePressed(changeShapesB);
 
-  button2.parent(controller);
+  button2.parent(controller); */
 
 
 

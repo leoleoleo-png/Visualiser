@@ -38,7 +38,7 @@ function setup() {
   userStartAudio();
 
   let limitLabel = createP("Sensitivity");
-  limit.parent(controller);
+  limitLabel.parent(controller);
 
   slider = createSlider(0.1, 0.2, 0.15, 0.01);
   slider.parent(controller);

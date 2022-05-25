@@ -78,7 +78,7 @@ button {
     color: #181B1D;
     margin-top: 5px;
     border-width: 0px;
-    border-radius:3px;
+  
 
   
 }
@@ -119,6 +119,7 @@ input::-webkit-slider-thumb {
     cursor: pointer;
     opacity: 1;
 
+
 }
 
 select {
@@ -128,6 +129,8 @@ select {
   background-color: #E4E4EB;
   font-size: 0.8rem;
   text-align: center;
+  border-radius:3px;
+  
 }
 
 
@@ -143,6 +146,7 @@ input::-webkit-file-upload-button {
     background-color: rgb(166, 189, 255);
     color: #181B1D;
     border-width: 0px;
+
 
 }
 

@@ -8,7 +8,7 @@ let img4;
 let img5;
 let timer = 0;
 let mic;
-var shapes = 3;
+var shapes = 2;
 
 function preload() {
 
@@ -39,7 +39,7 @@ function setup() {
   let limitLabel = createP("Sensitivity");
   limitLabel.parent(controller);
 
-  slider = createSlider(0.1, 0.2, 0.15, 0.01);
+  slider = createSlider(0.1, 10.1, 5.1, 0.01);
   slider.parent(controller);
 
   limitLabel.position(10, 40);
@@ -62,8 +62,8 @@ function draw() {
 
   let mix = val * 5 * micVolume;
 
-  let mox = map(mix, 0, 0.5, 1, 10);
-  print(mox);
+  let mox = map(micVolume, 0, 0.6, 1, 100);
+
   noStroke();
 
 
@@ -78,8 +78,9 @@ function draw() {
 
 
   for (let i = 0; i < waveform.length; i++) {
-    let x = map(i, 0, waveform.length, 0, width);
-    let y = map(waveform[i] * 20, -1, 1, 0, height);
+    let x = map(i, 0, waveform.length / 2, 0, width * 2);
+    let y = map(waveform[i * 2], -1, 1, 0, height);
+
 
 
     if (shapes == 1) {
@@ -90,26 +91,14 @@ function draw() {
       varImg = img4;
     }
 
-    image(varImg, y * 2, x, 1000 * mix, 1000 * mix);
+    image(varImg, x, y * 2 - windowHeight / 2, 100 * mix, 100 * mix);
 
-    rotate(PI / micVolume / 10);
-
-    if (mox > 2) {
-
-      rotate(PI / micVolume * 2);
-
-    }
-
-
-    if (mox > 1.5) {
-
-      rotate(PI / micVolume);
-
-    }
+    //image(varImg, x, y * 3 - windowHeight, 1000 * mix, 1000 * mix);
 
 
 
 
+    //translate(200,2);
 
 
   }
@@ -119,15 +108,18 @@ function draw() {
 
 
 
+  copy(0, windowHeight / 2, windowWidth, 10, 0, 0, windowWidth, windowHeight);
 
 
 
+  if (millis() >= 300 + timer) {
 
-  if (millis() >= 1000 + timer) {
+    if (map(micVolume*val, 0,3,0,10) > 5) {
 
-    if (mox > 1.5)
       shapesRandom();
-    timer = millis();
+      timer = millis();
+    }
+     
   }
 
 }

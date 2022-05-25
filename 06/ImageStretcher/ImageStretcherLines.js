@@ -82,14 +82,14 @@ function draw() {
   // shader() sets the active shader with our shader
   shader(camShader);
 
-  camShader.setUniform('u_resolution', [width / 10, height / 10]);
+  camShader.setUniform('u_resolution', [width / 100, height / 100]);
 
   // lets just send the cam to our shader as a uniform
   camShader.setUniform('tex0', cam);
 
   camShader.setUniform('tex1', img);
 
-  camShader.setUniform('amt', map(micVolume, 0.0, 0.6, 0, 40));
+  camShader.setUniform('amt', map(micVolume, 0.0, 1, 0, 10));
 
   camShader.setUniform("resolution", [width, height]);
 
@@ -103,10 +103,10 @@ function draw() {
 
   noStroke();
 
-  copy(shaderTexture, 0, 0, micSlider, micSlider, 0, 0, windowWidth, windowHeight);
+  copy(shaderTexture, 0, 0, 10, 10, 0, 0, windowWidth, windowHeight);
 
 
-  let pixelMove = map(micSlider, 0, 200, 0, img.width)
+  let pixelMove = map(micSlider, 0, 50, 100, img.width)
 
 
   beginShape();
@@ -151,8 +151,7 @@ function draw() {
       ellipse(r * 2 * micSlider, r / 2, 15, 15);
     }
 
-
-    translate(0.8 * width, height / 2);
+    translate( 200, 200);
   }
   endShape();
 
