@@ -32,7 +32,7 @@ function setup() {
 
     let limitLabel = createP("Add your own image");
     limitLabel.parent(controller);
-    limitLabel.position(5, 42);
+    limitLabel.position(10, 42);
 
     input = createFileInput(handleFile);
     input.parent(controller);

@@ -42,7 +42,7 @@ function setup() {
   slider = createSlider(0, 4, 2);
   slider.parent(controller);
 
-  limitLabel.position(5, 40);
+  limitLabel.position(10, 40);
 
 
   button = createButton('Mode A');

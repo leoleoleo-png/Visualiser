@@ -67,7 +67,7 @@ function setup() {
 
   let limitLabel = createP("Sensitivity");
   limitLabel.parent(controller);
-  limitLabel.position(5, 40);
+  limitLabel.position(10, 40);
   slider = createSlider(0, 10, 5);
 
 
@@ -98,7 +98,7 @@ function setup() {
 
   let inputLabel = createP("Add your own video");
   inputLabel.parent(controller);
-  inputLabel.position(5, 133);
+  inputLabel.position(10, 133);
 
   fileInput = createFileInput(handleFile);
   fileInput.size(180, 30);

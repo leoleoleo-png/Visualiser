@@ -58,7 +58,7 @@ function setup() {
     let limitLabel = createP("Sensitivity");
 
     limitLabel.parent(controller);
-    limitLabel.position(5, 40);
+    limitLabel.position(10, 40);
 
     slider = createSlider(0.1,5.1,2.6,0.1);
     slider.parent(controller);
@@ -66,7 +66,7 @@ function setup() {
     let inputLabel = createP("Input your own image");
 
     inputLabel.parent(controller);
-    inputLabel.position(5, 98);
+    inputLabel.position(10, 98);
     input = createFileInput(handleFile);
     input.parent(controller);
     let col = color(224, 224, 224,0);

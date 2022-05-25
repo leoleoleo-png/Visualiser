@@ -36,7 +36,7 @@ canvas {
 #controller {
     z-index: 9;
     width: 180px;
-    padding: 5px;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items:'center';
@@ -45,6 +45,8 @@ canvas {
     background-color: #F8F8FF;
     color: var(--main-black);
     margin: 10px;
+    border-radius:3px;
+    
 }
 
 #toggleButton{
@@ -76,6 +78,7 @@ button {
     color: #181B1D;
     margin-top: 5px;
     border-width: 0px;
+    border-radius:3px;
 
   
 }

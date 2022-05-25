@@ -65,7 +65,7 @@ function setup() {
     let limitLabel = createP("Sensitivity");
 
     limitLabel.parent(controller);
-    limitLabel.position(5, 40);
+    limitLabel.position(10, 40);
     micSens = createSlider(1 / 10, 3.1, 1.6, 0.2);
     micSens.parent(controller);
     background(0);

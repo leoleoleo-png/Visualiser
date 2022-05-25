@@ -44,7 +44,7 @@ function setup() {
 
   limitLabel.parent(controller);
 
-  limitLabel.position(5, 40);
+  limitLabel.position(10, 40);
   slider = createSlider(0, 60, 30);
   slider.parent(controller);
 
@@ -58,7 +58,7 @@ function setup() {
 
   let inputLabel = createP("Add your own image");
   inputLabel.parent(controller);
-  inputLabel.position(5, 100);
+  inputLabel.position(10, 100);
 
 
   input = createFileInput(handleFile);

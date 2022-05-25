@@ -42,7 +42,7 @@ function setup() {
   slider = createSlider(0.1, 0.2, 0.15, 0.01);
   slider.parent(controller);
 
-  limitLabel.position(5, 40);
+  limitLabel.position(10, 40);
 
 
 

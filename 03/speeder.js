@@ -38,18 +38,18 @@ function setup() {
   userStartAudio();
 
   let limitLabel = createP("Sensitivity");
-  limitLabel.parent(controller);
+  limit.parent(controller);
 
   slider = createSlider(0.1, 0.2, 0.15, 0.01);
   slider.parent(controller);
 
-  limitLabel.position(5, 40);
+  limitLabel.position(10, 40);
 
 
 
   let inputLabel = createP("Add your own image");
   inputLabel.parent(controller);
-  inputLabel.position(5, 100);
+  inputLabel.position(10, 100);
 
   fileInput = createFileInput(handleFile);
   fileInput.size(180, 30);

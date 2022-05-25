@@ -20,17 +20,18 @@
 
 <body>
     <select name="visualisers" style=" background:#edf2ff; border:none;" id="viz-select" onChange="changeViz(this.value);">
-      
-        <option value="02">01. Solvent</option>
-        <option value="01">02. Stereolab</option>
+        <option value="01">01. Oscill</option>
+        <option value="02">02. Solvent</option>
+  
     
         <option value="03">03. Image cascade</option>
-        <option value="04">04. Little blob friend</option>
+        <option value="04">04. Stereolab</option>
         <option value="05">05. Ascii</option>
         <option value="06">06. Bubbles</option>
-    <!--     <option value="07">07. Pixelator</option> -->
-        <option value="08">07. Flower painter</option>
-        <option value="g">08. Oscillator</option>
+        <option value="07">07. Flower painter</option>
+        <option value="08">08. Little blob friend</option>
+        <option value="b">08. Little blob friend</option>
+        
        
         
        
@@ -39,7 +40,7 @@
     <div id="sketch"></div>
 
     <div id="vizHolder">
-        <iframe src="02/index.html" frameborder="0"></iframe>
+        <iframe src="01/index.html" frameborder="0"></iframe>
     </div>
 
     <script id="p5script" src="audioInput.js"></script>

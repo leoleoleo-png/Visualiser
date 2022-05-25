@@ -62,7 +62,7 @@ function setup() {
 
     limitLabel.parent(controller);
 
-    limitLabel.position(5, 40);
+    limitLabel.position(10, 40);
     micSlider = createSlider(0.05, 0.4, 0.23, 0.05);
 
 
@@ -87,7 +87,7 @@ function setup() {
 
     shapeLabel.parent(controller);
 
-    shapeLabel.position(5, 93);
+    shapeLabel.position(10, 93);
 
 
 
