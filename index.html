@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>NYO Visualiser</title>
-
+    <link rel="icon" type="image/x-icon" href="cd.png">
     <link rel="stylesheet" type="text/css" href="style.css" />
 
     <script src="libraries/p5.min.js"></script>
@@ -20,7 +20,7 @@
 
 <body>
     <select name="visualisers" style=" background:#edf2ff; border:none;" id="viz-select" onChange="changeViz(this.value);">
-        <option value="01">01. Oscill</option>
+        <option value="e">01. Oscilloscoop</option>
         <option value="02">02. Solvent</option>
         <option value="03">03. Image cascade</option>
         <option value="04">04. Stereolab</option>
@@ -29,17 +29,14 @@
         <option value="07">07. Flower painter</option>
         <option value="08">08. Little blob friend</option>
         <option value="b">09. Speeding</option>
-       <!--  <option value="e">09. Speeding</option> -->
-        
-       
-        
-       
+
+  
     </select>
 
     <div id="sketch"></div>
 
     <div id="vizHolder">
-        <iframe src="01/index.html" frameborder="0"></iframe>
+        <iframe src="e/index.html" frameborder="0"></iframe>
     </div>
 
     <script id="p5script" src="audioInput.js"></script>
